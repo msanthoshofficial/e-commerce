@@ -1,0 +1,19 @@
+header{
+    position: sticky;
+    top:0;
+    padding:10px;
+    background-color: #ffffffa6;
+    box-shadow: 0 -6px 10px 5px rgb(171 171 171 / 50%);
+    backdrop-filter: blur(8px);
+}
+h2{
+    margin:0px
+}
+.items{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.right-section{
+    margin-inline: 10px;
+}
