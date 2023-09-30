@@ -1,0 +1,100 @@
+<div style="display: flex; justify-content: center; padding-top: 25vh">
+  <div class="card" *ngIf="!formToggled">
+    <div class="welcome">
+      <img src="assets/favicon.png" alt="Image" height="50" />
+      <h1 style="margin-block: 10px">Welcome Back</h1>
+      <div style="margin-block: 10px">
+        <span style="color: #757575">Don't have an account? </span
+        ><a style="color: #4d00ff; cursor: pointer" (click)="toggleForm(true)">Create today!</a>
+      </div>
+    </div>
+    <form>
+      <div [formGroup]="loginform">
+        <div class="form-control">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            placeholder="user@gmail.com"
+            pInputText
+            formControlName="email"
+          />
+        </div>
+        <div class="form-control">
+          <label for="email">Password</label>
+          <p-password
+            [style]="{ width: '100%' }"
+            [inputStyle]="{ width: '100%' }"
+            type="password"
+            [toggleMask]="true"
+            placeholder="password"
+            formControlName="password"
+            ><ng-template pTemplate="header">
+              <h6>Pick a password</h6>
+            </ng-template>
+            <ng-template pTemplate="footer">
+              <p style="font-size: 15px">Suggestions</p>
+              <ul style="line-height: 1.5; font-size: 15px">
+                <li>At least one lowercase</li>
+                <li>At least one uppercase</li>
+                <li>At least one numeric</li>
+                <li>Minimum 8 characters</li>
+              </ul>
+            </ng-template>
+          </p-password>
+        </div>
+        <div style="text-align: center">
+          <p-button label="Login" icon="pi pi-check-circle" (onClick)="login()"></p-button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="card" *ngIf="formToggled">
+    <div class="welcome">
+      <img src="assets/favicon.png" alt="Image" height="50" />
+      <h1 style="margin-block: 10px">Register</h1>
+      <div style="margin-block: 10px">
+        <span style="color: #757575">have an account? </span
+        ><a style="color: #4d00ff; cursor: pointer" (click)="toggleForm(false)">login!</a>
+      </div>
+    </div>
+    <form>
+      <div [formGroup]="registerform">
+        <div class="form-control">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            placeholder="user@gmail.com"
+            pInputText
+            formControlName="email"
+          />
+        </div>
+        <div class="form-control">
+          <label for="email">Password</label>
+          <p-password
+            [style]="{ width: '100%' }"
+            [inputStyle]="{ width: '100%' }"
+            type="password"
+            [toggleMask]="true"
+            placeholder="password"
+            formControlName="password"
+            ><ng-template pTemplate="header">
+              <h6>Pick a password</h6>
+            </ng-template>
+            <ng-template pTemplate="footer">
+              <p style="font-size: 15px">Suggestions</p>
+              <ul style="line-height: 1.5; font-size: 15px">
+                <li>At least one lowercase</li>
+                <li>At least one uppercase</li>
+                <li>At least one numeric</li>
+                <li>Minimum 8 characters</li>
+              </ul>
+            </ng-template>
+          </p-password>
+        </div>
+        <div style="text-align: center">
+          <p-button label="Register" icon="pi pi-check-circle" (onClick)="register()"></p-button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

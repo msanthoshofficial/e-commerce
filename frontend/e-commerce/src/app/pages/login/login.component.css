@@ -1,0 +1,20 @@
+.card{
+    max-width: 100vh;
+    min-width: 50vh;
+    background-color: #ffffff;
+    box-shadow: 0 -6px 10px 5px rgb(223 223 223 / 50%);
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.welcome{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-control{
+    margin-block: 20px;
+    display: flex;
+    flex-direction: column;
+}
