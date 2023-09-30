@@ -1,1 +1,25 @@
-<p>products works!</p>
+<div style="margin-inline: 10%;margin-block: 20px;background-color: #282e38;width: auto;height: 5vh;border-radius: 10px;display: flex;justify-content: center;align-items: center;color: white;">
+    🔥 Hot Deals!
+    Libero voluptatum atque exercitationem praesentium provident odit.
+    Learn More
+    
+</div>
+<div style="margin-inline: 10%;">
+<p-carousel [value]="products" [numVisible]="3" [numScroll]="2" [circular]="true" [responsiveOptions]="responsiveOptions" [autoplayInterval]="5000">
+    <ng-template let-product pTemplate="item">
+        <div style="border: 2px solid rgb(241, 241, 241);border-radius: 10px; margin: 5px;display: flex;align-items: center;flex-direction: column;padding-block: 10px;">
+            <div class="mb-3">
+                <img src="https://primefaces.org/cdn/primeng/images/demo/product/{{ product.image }}" [alt]="product.name" class="w-6 shadow-2" />
+            </div>
+            <div>
+                <h4 class="mb-1">{{ product.name }}</h4>
+                <h6 class="mt-0 mb-3">{{ '$' + product.price }}</h6>
+                <div class="car-buttons mt-5">
+                    <p-button type="button" styleClass="p-button p-button-rounded mr-2" icon="pi pi-search"></p-button>
+                    <p-button type="button" styleClass="p-button-success p-button-rounded mr-2" icon="pi pi-star-fill"></p-button>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-carousel>
+</div>

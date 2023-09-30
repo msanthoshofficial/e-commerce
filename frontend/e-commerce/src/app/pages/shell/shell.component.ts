@@ -11,8 +11,7 @@ import { HeaderComponent } from 'src/app/core/header/header.component';
   standalone: true,
   imports: [CommonModule,RouterOutlet,HeaderComponent],
   templateUrl: './shell.component.html',
-  styles: [
-  ]
+  styleUrls: ['./shell.component.css']
 })
 export class ShellComponent {
 
