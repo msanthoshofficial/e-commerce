@@ -2,8 +2,9 @@ var jwt = require("jsonwebtoken");
 
 const jwt_verify = async (req, res, next) => {
   try {
-    const token = req.headers.authorization;
+    const token = req.cookies.token;
     const decoded = await jwt.verify(token, process.env.JWT_SECRET);
+    req.email = decoded.email;
     next();
   } catch (error) {
     res.status(401).json({ message: "Unauthorized" });

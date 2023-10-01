@@ -43,7 +43,7 @@
           </p-password>
         </div>
         <div style="text-align: center">
-          <p-button label="Login" icon="pi pi-check-circle" (onClick)="login()"></p-button>
+          <p-button [disabled]="loginform.invalid" label="Login" icon="pi pi-check-circle" (onClick)="login()"></p-button>
         </div>
       </div>
     </form>
@@ -92,7 +92,7 @@
           </p-password>
         </div>
         <div style="text-align: center">
-          <p-button label="Register" icon="pi pi-check-circle" (onClick)="register()"></p-button>
+          <p-button [disabled]="registerform.invalid" label="Register" icon="pi pi-check-circle" (onClick)="register()"></p-button>
         </div>
       </div>
     </form>

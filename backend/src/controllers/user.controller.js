@@ -11,6 +11,14 @@ const create_user = async (req,res,next) => {
     next()
 }
 
+const get_user = async (req,res,next) => {
+    const email = req.email
+    const user = await user_model.User.find({email:email},"username email");
+    res.status(200).json(user);
+    next();
+}
+
 module.exports = {
-    create_user:create_user
+    create_user:create_user,
+    get_user: get_user
 }

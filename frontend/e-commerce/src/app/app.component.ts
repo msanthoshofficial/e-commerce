@@ -5,6 +5,8 @@ import { PrimeNGConfig } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { HeaderComponent } from './core/header/header.component';
 import { LoginComponent } from './pages/login/login.component';
+import { HttpClientModule } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-root',
@@ -15,6 +17,7 @@ import { LoginComponent } from './pages/login/login.component';
     ButtonModule,
     HeaderComponent,
     LoginComponent,
+    HttpClientModule
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],

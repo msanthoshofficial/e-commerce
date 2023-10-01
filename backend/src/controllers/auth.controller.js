@@ -16,7 +16,7 @@ const authenticate = async (req, res, next) => {
   const is_valid = await bcrypt.compare(password, hashed_password.password);
   if (is_valid) {
     const token = jwt_generator({ email: email });
-    res.cookie("token", token, { httpOnly: true, maxAge: 3600000 }); // maxAge is in milliseconds (1 hour)
+    res.cookie("token", token, { httpOnly: true, maxAge: 3600000,SameSite: 'None', secure: true }); // maxAge is in milliseconds (1 hour)
     res.status(200).json({ message: "Login successful" });
   } else {
     res.status(400).json({ message: "Error logging in" });
