@@ -5,12 +5,15 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { ButtonModule } from 'primeng/button';
 import { PasswordModule } from 'primeng/password';
 import { Router } from '@angular/router';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+
 import {
   FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
-  Validators
+  Validators,
 } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth/auth.service';
 
@@ -25,15 +28,16 @@ import { AuthService } from 'src/app/services/auth/auth.service';
     ReactiveFormsModule,
     FormsModule,
     PasswordModule,
+    ToastModule
   ],
-  providers: [AuthService],
+  providers: [AuthService, MessageService],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
 
 export class LoginComponent {
   
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(private authService: AuthService, private router: Router, private messageService: MessageService) {
     
   }
   value: any;
@@ -54,10 +58,10 @@ export class LoginComponent {
     ).subscribe((res:loginResponse)=>{
       
       if(res.message == "Login successful"){
-        
         this.router.navigate(['/app/products']);
       }
     });
+    this.messageService.add({ severity: 'error', summary: 'Auth Error', detail: 'Email or Password is incorrect' });
   }
   register() {
     console.log(this.registerform.value);
