@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { CarouselModule } from 'primeng/carousel'
 import { ButtonModule } from 'primeng/button'
 import { Product } from './product';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 
 
@@ -15,7 +16,7 @@ import { Product } from './product';
 })
 
 export class ProductsComponent {
-
+	constructor(private authService: AuthService){}
   products= [
 		{
 			"id": "1000",
