@@ -18,3 +18,26 @@
     display: flex;
     flex-direction: column;
 }
+
+.profile-picture {
+    position: relative;
+    width: 6rem;
+    height: 6rem;
+    display: flex;
+    overflow: hidden;
+    border-radius: 50%;
+    align-items: center;
+    border: #4d00ff solid;
+    justify-content: center;
+  }
+  
+  .upload-icon {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    font-weight: bold;
+    background-color: #ffffff26;
+    backdrop-filter: blur(4px);
+    padding: 0.5rem;
+    cursor: pointer;
+  }

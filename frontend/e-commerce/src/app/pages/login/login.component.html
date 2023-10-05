@@ -1,5 +1,5 @@
-<div style="display: flex; justify-content: center; padding-top: 10vh">
-  <div class="card" *ngIf="!formToggled">
+<div style="display: flex; justify-content: center; ">
+  <div  style="margin-top: 15vh;" class="card" *ngIf="!formToggled">
     <div class="welcome">
       <img src="assets/favicon.png" alt="Image" height="50" />
       <h1 style="margin-block: 10px">Welcome Back</h1>
@@ -8,8 +8,8 @@
         ><a style="color: #4d00ff; cursor: pointer" (click)="toggleForm(true)">Create today!</a>
       </div>
     </div>
-    <form>
-      <div [formGroup]="loginform">
+    <form [formGroup]="loginform">
+      <div >
         <div class="form-control">
           <label for="email">Email</label>
           <input
@@ -48,7 +48,7 @@
       </div>
     </form>
   </div>
-  <div class="card" *ngIf="formToggled">
+  <div style="margin-top: 5vh;" class="card" *ngIf="formToggled">
     <div class="welcome">
       <img src="assets/favicon.png" alt="Image" height="50" />
       <h1 style="margin-block: 10px">Register</h1>
@@ -57,9 +57,23 @@
         ><a style="color: #4d00ff; cursor: pointer" (click)="toggleForm(false)">login!</a>
       </div>
     </div>
-    <form>
-      <p-fileUpload mode="basic" name="demo[]" accept="image/*" [maxFileSize]="1000000" [auto]="true" chooseLabel="Browse"></p-fileUpload>
-      <div [formGroup]="registerform">
+    <form [formGroup]="registerform">
+      <div class="form-control" style="justify-content: center;align-items: center;">
+      <input #fileInput type="file" (change)="onImageUpload($event)" accept="image/*" style="display: none;" formControlName="profileImage">
+      <div *ngIf="!imageUrl" class="profile-picture" (click)="openFileInput()">
+        <i  class="pi pi-user" [ngStyle]="{'font-size': '4rem'}" ></i>
+          <div class="upload-icon">
+            <i class="pi pi-pencil"></i> 
+          </div>
+      </div>
+      <div *ngIf="imageUrl"  class="profile-picture" (click)="openFileInput()">
+        <img  [src]="imageUrl" alt="Selected Image" [ngStyle]="{'width': '6rem', 'height': '6rem', 'border-radius': '50%'}">
+        <div class="upload-icon">
+          <i class="pi pi-pencil"></i>
+        </div>
+      </div>
+    </div>
+      <div >
         <div class="form-control">
           <label for="email">Email</label>
           <input
@@ -71,11 +85,11 @@
         </div>
         <div class="form-control">
           <label for="address">Address</label>
-        <textarea rows="5" cols="30" pInputTextarea [autoResize]="true"></textarea>
+        <textarea rows="4" cols="30" pInputTextarea formControlName="address" [autoResize]="true"></textarea>
         </div>
         <div class="form-control">
-          <label for="address">Phone</label>
-        <p-inputMask [style]="{ width: '100%' }" mask="999-9999999999"  placeholder="+999-9999999999"></p-inputMask>
+          <label for="phone">Phone</label>
+        <p-inputMask [style]="{ width: '100%' }" mask="999-9999999999" formControlName="phone" placeholder="+999-9999999999"></p-inputMask>
         </div>
         <div class="form-control">
           <label for="email">Password</label>
