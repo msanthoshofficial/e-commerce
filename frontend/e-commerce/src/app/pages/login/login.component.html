@@ -1,4 +1,4 @@
-<div style="display: flex; justify-content: center; padding-top: 25vh">
+<div style="display: flex; justify-content: center; padding-top: 10vh">
   <div class="card" *ngIf="!formToggled">
     <div class="welcome">
       <img src="assets/favicon.png" alt="Image" height="50" />
@@ -58,6 +58,7 @@
       </div>
     </div>
     <form>
+      <p-fileUpload mode="basic" name="demo[]" accept="image/*" [maxFileSize]="1000000" [auto]="true" chooseLabel="Browse"></p-fileUpload>
       <div [formGroup]="registerform">
         <div class="form-control">
           <label for="email">Email</label>
@@ -67,6 +68,14 @@
             pInputText
             formControlName="email"
           />
+        </div>
+        <div class="form-control">
+          <label for="address">Address</label>
+        <textarea rows="5" cols="30" pInputTextarea [autoResize]="true"></textarea>
+        </div>
+        <div class="form-control">
+          <label for="address">Phone</label>
+        <p-inputMask [style]="{ width: '100%' }" mask="999-9999999999"  placeholder="+999-9999999999"></p-inputMask>
         </div>
         <div class="form-control">
           <label for="email">Password</label>

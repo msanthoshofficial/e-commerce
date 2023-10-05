@@ -7,6 +7,9 @@ import { PasswordModule } from 'primeng/password';
 import { Router } from '@angular/router';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { InputMaskModule } from 'primeng/inputmask';
+import { FileUploadModule } from 'primeng/fileupload';
 
 import {
   FormControl,
@@ -28,7 +31,10 @@ import { AuthService } from 'src/app/services/auth/auth.service';
     ReactiveFormsModule,
     FormsModule,
     PasswordModule,
-    ToastModule
+    ToastModule,
+    InputTextareaModule,
+    InputMaskModule,
+    FileUploadModule
   ],
   providers: [AuthService, MessageService],
   templateUrl: './login.component.html',
