@@ -20,11 +20,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth/auth.service';
-
-interface UploadEvent {
-  originalEvent: Event;
-  files: File[];
-}
+import { DataService } from 'src/app/services/data/data.service';
 
 @Component({
   selector: 'app-login',
@@ -42,7 +38,7 @@ interface UploadEvent {
     InputMaskModule,
     FileUploadModule,
   ],
-  providers: [AuthService, MessageService],
+  providers: [AuthService, MessageService, DataService],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
@@ -50,7 +46,8 @@ export class LoginComponent {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private dataService: DataService
   ) {}
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   value: any;
@@ -80,41 +77,72 @@ export class LoginComponent {
     ]),
     phone: new FormControl('', [
       Validators.required,
-      Validators.minLength(13),
-      Validators.maxLength(13),
+      Validators.minLength(14),
+      Validators.maxLength(14),
     ]),
     password: new FormControl('', [
       Validators.required,
       Validators.minLength(6),
     ]),
-    profileImage: new FormControl(['']),
+    profile_picture: new FormControl(['']),
   });
 
   login() {
     this.authService
       .login(this.loginform.value.email!, this.loginform.value.password!)
-      .subscribe((res: loginResponse) => {
-        if (res.message == 'Login successful') {
-          this.router.navigate(['/app/products']);
-        }
-        else{
+      .subscribe(
+        (res: loginResponse) => {
+          if (res.message == 'Login successful') {
+            this.router.navigate(['/app/products']);
+          } else {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Auth Error',
+              detail: 'Email or Password is incorrect',
+            });
+          }
+        },
+        (err) => {
           this.messageService.add({
             severity: 'error',
             summary: 'Auth Error',
             detail: 'Email or Password is incorrect',
           });
         }
-      },(err)=>{
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Auth Error',
-          detail: 'Email or Password is incorrect',
-        });
-      });
+      );
   }
 
   register() {
-    console.log(this.registerform.value);
+    const formData = new FormData();
+    formData.append('email', this.registerform.value.email!);
+    formData.append('address', this.registerform.value.address!);
+    formData.append('phone', this.registerform.value.phone!);
+    formData.append('password', this.registerform.value.password!);
+    const profile_picture = this.registerform.get('profile_picture')?.value;
+    if (profile_picture instanceof File) {
+      formData.append('profile_picture', profile_picture);
+    }
+    this.dataService.registerUser(formData).subscribe(
+      (res: loginResponse) => {
+        console.log(res.message == 'User created successfully');
+        this.clearFileInput();
+        this.messageService.add({
+          severity: 'success',
+          summary: 'User Registration Successful',
+          detail: 'User registered successfully',
+        });
+        this.toggleForm(false);
+      },
+      (err) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'User Registration Error',
+          detail: "Can't register user",
+        });
+        this.clearFileInput();
+      }
+    );
+    this.clearFileInput();
   }
 
   onImageUpload(event: any) {
@@ -127,8 +155,8 @@ export class LoginComponent {
           severity: 'warn',
           summary: 'Size Error',
           detail: 'Image size should not exceed 1 MB',
-        })
-        this.fileInput.nativeElement.value = ''; // Clear the input
+        });
+        this.replaceFileInput(); // Clear the input
         return;
       }
       // Display preview
@@ -142,12 +170,42 @@ export class LoginComponent {
 
       // Read the image as a data URL
       reader.readAsDataURL(file);
-      this.registerform.get('profileImage')?.setValue(file);
+      this.registerform.get('profile_picture')!.setValue(file);
+      this.replaceFileInput();
     }
+  }
+
+  replaceFileInput(): void {
+    const parent = this.fileInput.nativeElement.parentNode;
+    if (!parent) return;
+    // Remove the existing input
+    parent.removeChild(this.fileInput.nativeElement);
+
+    // Create a new input
+    const newFileInput = document.createElement('input');
+    newFileInput.type = 'file';
+    newFileInput.accept = 'image/*';
+    newFileInput.style.display = 'none';
+
+    // Add the new input
+    parent.appendChild(newFileInput);
+
+    // Add event listener to the new input
+    newFileInput.addEventListener('change', (event: Event) =>
+      this.onImageUpload(event)
+    );
+
+    // Update the reference to the new input
+    this.fileInput.nativeElement = newFileInput;
   }
 
   openFileInput(): void {
     this.fileInput.nativeElement.click();
+  }
+
+  clearFileInput(): void {
+    this.fileInput.nativeElement.value = '';
+    this.registerform.reset();
   }
 
   toggleForm(status: boolean) {

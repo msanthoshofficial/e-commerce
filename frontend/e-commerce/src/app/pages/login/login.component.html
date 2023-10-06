@@ -1,34 +1,24 @@
-<div style="display: flex; justify-content: center; ">
-  <div  style="margin-top: 15vh;" class="card" *ngIf="!formToggled">
+<div style="display: flex; justify-content: center">
+  <div style="margin-top: 15vh" class="card" *ngIf="!formToggled">
     <div class="welcome">
       <img src="assets/favicon.png" alt="Image" height="50" />
       <h1 style="margin-block: 10px">Welcome Back</h1>
       <div style="margin-block: 10px">
-        <span style="color: #757575">Don't have an account? </span
-        ><a style="color: #4d00ff; cursor: pointer" (click)="toggleForm(true)">Create today!</a>
+        <span style="color: #757575">Don't have an account? </span><a style="color: #4d00ff; cursor: pointer"
+          (click)="toggleForm(true)">Create today!</a>
       </div>
     </div>
     <form [formGroup]="loginform">
-      <div >
+      <div>
         <div class="form-control">
           <label for="email">Email</label>
-          <input
-            type="email"
-            placeholder="user@gmail.com"
-            pInputText
-            formControlName="email"
-          />
+          <input type="email" placeholder="user@gmail.com" pInputText formControlName="email" />
         </div>
         <div class="form-control">
           <label for="email">Password</label>
-          <p-password
-            [style]="{ width: '100%' }"
-            [inputStyle]="{ width: '100%' }"
-            type="password"
-            [toggleMask]="true"
-            placeholder="password"
-            formControlName="password"
-            ><ng-template pTemplate="header">
+          <p-password [style]="{ width: '100%' }" [inputStyle]="{ width: '100%' }" type="password" [toggleMask]="true"
+            placeholder="password" formControlName="password">
+            <ng-template pTemplate="header">
               <h6>Pick a password</h6>
             </ng-template>
             <ng-template pTemplate="footer">
@@ -43,64 +33,60 @@
           </p-password>
         </div>
         <div style="text-align: center">
-          <p-button [disabled]="loginform.invalid" label="Login" icon="pi pi-check-circle" (onClick)="login()"></p-button>
+          <p-button [disabled]="loginform.invalid" label="Login" icon="pi pi-check-circle" (onClick)="login()">
+          </p-button>
         </div>
       </div>
     </form>
   </div>
-  <div style="margin-top: 5vh;" class="card" *ngIf="formToggled">
+  <div style="margin-top: 5vh" class="card" *ngIf="formToggled">
     <div class="welcome">
       <img src="assets/favicon.png" alt="Image" height="50" />
       <h1 style="margin-block: 10px">Register</h1>
       <div style="margin-block: 10px">
-        <span style="color: #757575">have an account? </span
-        ><a style="color: #4d00ff; cursor: pointer" (click)="toggleForm(false)">login!</a>
+        <span style="color: #757575">have an account? </span><a style="color: #4d00ff; cursor: pointer"
+          (click)="toggleForm(false)">login!</a>
       </div>
     </div>
     <form [formGroup]="registerform">
-      <div class="form-control" style="justify-content: center;align-items: center;">
-      <input #fileInput type="file" (change)="onImageUpload($event)" accept="image/*" style="display: none;" formControlName="profileImage">
-      <div *ngIf="!imageUrl" class="profile-picture" (click)="openFileInput()">
-        <i  class="pi pi-user" [ngStyle]="{'font-size': '4rem'}" ></i>
+      <div class="form-control" style="justify-content: center; align-items: center">
+        <input #fileInput type="file" (change)="onImageUpload($event)" accept="image/*" style="display: none" />
+        <div *ngIf="!imageUrl" class="profile-picture" (click)="openFileInput()">
+          <i class="pi pi-user" [ngStyle]="{ 'font-size': '4rem' }"></i>
           <div class="upload-icon">
-            <i class="pi pi-pencil"></i> 
+            <i class="pi pi-pencil"></i>
           </div>
-      </div>
-      <div *ngIf="imageUrl"  class="profile-picture" (click)="openFileInput()">
-        <img  [src]="imageUrl" alt="Selected Image" [ngStyle]="{'width': '6rem', 'height': '6rem', 'border-radius': '50%'}">
-        <div class="upload-icon">
-          <i class="pi pi-pencil"></i>
+        </div>
+        <div *ngIf="imageUrl" class="profile-picture" (click)="openFileInput()">
+          <img [src]="imageUrl" alt="Selected Image" [ngStyle]="{
+              width: '6rem',
+              height: '6rem',
+              'border-radius': '50%'
+            }" />
+          <div class="upload-icon">
+            <i class="pi pi-pencil"></i>
+          </div>
         </div>
       </div>
-    </div>
-      <div >
+      <div>
         <div class="form-control">
           <label for="email">Email</label>
-          <input
-            type="email"
-            placeholder="user@gmail.com"
-            pInputText
-            formControlName="email"
-          />
+          <input type="email" placeholder="user@gmail.com" pInputText formControlName="email" />
         </div>
         <div class="form-control">
           <label for="address">Address</label>
-        <textarea rows="4" cols="30" pInputTextarea formControlName="address" [autoResize]="true"></textarea>
+          <textarea rows="4" cols="30" pInputTextarea formControlName="address" [autoResize]="true"></textarea>
         </div>
         <div class="form-control">
           <label for="phone">Phone</label>
-        <p-inputMask [style]="{ width: '100%' }" mask="999-9999999999" formControlName="phone" placeholder="+999-9999999999"></p-inputMask>
+          <p-inputMask [style]="{ width: '100%' }" mask="999-9999999999" formControlName="phone"
+            placeholder="+999-9999999999"></p-inputMask>
         </div>
         <div class="form-control">
           <label for="email">Password</label>
-          <p-password
-            [style]="{ width: '100%' }"
-            [inputStyle]="{ width: '100%' }"
-            type="password"
-            [toggleMask]="true"
-            placeholder="password"
-            formControlName="password"
-            ><ng-template pTemplate="header">
+          <p-password [style]="{ width: '100%' }" [inputStyle]="{ width: '100%' }" type="password" [toggleMask]="true"
+            placeholder="password" formControlName="password">
+            <ng-template pTemplate="header">
               <h6>Pick a password</h6>
             </ng-template>
             <ng-template pTemplate="footer">
@@ -115,7 +101,8 @@
           </p-password>
         </div>
         <div style="text-align: center">
-          <p-button [disabled]="registerform.invalid" label="Register" icon="pi pi-check-circle" (onClick)="register()"></p-button>
+          <p-button [disabled]="registerform.invalid" label="Register" icon="pi pi-check-circle" (onClick)="register()">
+          </p-button>
         </div>
       </div>
     </form>
