@@ -13,4 +13,9 @@ export class DataService {
       withCredentials: true,
     });
   }
+  userProfile() {
+    return this.http.get(this.api_url + 'user/profile', {
+      withCredentials: true,
+    });
+  }
 }

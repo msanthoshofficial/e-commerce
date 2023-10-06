@@ -41,6 +41,8 @@ exports.create_user = async (req, res) => {
 					.json({ error: "No profile image provided" });
 			}
 			const profile_picture = req.file.buffer.toString("base64");
+			//const profile_picture = req.file.buffer;
+			const content_type = req.file.mimetype;
 			var { email, password, phone, address } = req.body;
 			const username = email.split("@")[0];
 			password = await bcrypt.hash(password, 10);
@@ -49,6 +51,7 @@ exports.create_user = async (req, res) => {
 				phone,
 				address,
 				profile_picture,
+				content_type,
 				email,
 				password,
 			});
@@ -75,4 +78,18 @@ exports.get_user = async (req, res, next) => {
 		res.status(404).json({ message: "User Not Found" });
 	}
 	next();
+};
+
+exports.get_profile = async (req, res, next) => {
+	try {
+		const email = req.email;
+		var user = await user_model.User.findOne(
+			{ email: email },
+			"username email profile_picture phone address content_type"
+		);
+		user["profile_picture"] = user["profile_picture"].toString("base64");
+		res.status(200).json(user);
+	} catch (err) {
+		res.status(404).json({ message: "User Not Found" });
+	}
 };

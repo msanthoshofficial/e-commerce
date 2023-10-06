@@ -6,6 +6,14 @@ const userSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
+		phone: {
+			type: String,
+			required: false,
+		},
+		address: {
+			type: String,
+			required: false,
+		},
 		email: {
 			type: String,
 			required: true,
@@ -13,6 +21,14 @@ const userSchema = new mongoose.Schema(
 		password: {
 			type: String,
 			required: true,
+		},
+		profile_picture: {
+			type: String,
+			required: false,
+		},
+		content_type: {
+			type: String,
+			required: false,
 		},
 	},
 	{ collection: "users" }
@@ -32,6 +48,10 @@ const userProfileSchema = new mongoose.Schema(
 			required: true,
 		},
 		profile_picture: {
+			type: String,
+			required: true,
+		},
+		content_type: {
 			type: String,
 			required: true,
 		},

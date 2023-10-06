@@ -93,6 +93,9 @@ export class LoginComponent {
       .subscribe(
         (res: loginResponse) => {
           if (res.message == 'Login successful') {
+            this.dataService.userProfile().subscribe((res) => {
+              sessionStorage.setItem('user', JSON.stringify(res));
+            });
             this.router.navigate(['/app/products']);
           } else {
             this.messageService.add({
@@ -214,4 +217,5 @@ export class LoginComponent {
 }
 export type loginResponse = {
   message?: string;
+  user?: Object;
 };
