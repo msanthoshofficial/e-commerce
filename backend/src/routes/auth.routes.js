@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post("/login", authController.authenticate);
 router.get("/login", jwt_verify, (req, res) =>
-	res.json({ message: "Authenticated" })
+	res.json({ message: "Authenticated", role: req.role })
 );
 
 module.exports = router;

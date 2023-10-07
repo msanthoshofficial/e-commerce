@@ -6,6 +6,7 @@ exports.jwt_verify = async (req, res, next) => {
 		const decoded = await jwt.verify(token, process.env.JWT_SECRET);
 		req.email = decoded.email;
 		req.id = decoded.id;
+		req.role = decoded.role;
 		if (!req.email || !req.id) throw new Error("Unauthorized");
 		next();
 	} catch (error) {

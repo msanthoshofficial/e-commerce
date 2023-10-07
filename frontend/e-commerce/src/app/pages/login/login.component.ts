@@ -95,8 +95,8 @@ export class LoginComponent {
           if (res.message == 'Login successful') {
             this.dataService.userProfile().subscribe((res) => {
               sessionStorage.setItem('user', JSON.stringify(res));
+              this.router.navigate(['/app/products']);
             });
-            this.router.navigate(['/app/products']);
           } else {
             this.messageService.add({
               severity: 'error',

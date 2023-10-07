@@ -30,6 +30,10 @@ const userSchema = new mongoose.Schema(
 			type: String,
 			required: false,
 		},
+		role: {
+			type: String,
+			required: true,
+		},
 	},
 	{ collection: "users" }
 );
@@ -60,6 +64,10 @@ const userProfileSchema = new mongoose.Schema(
 			required: true,
 		},
 		password: {
+			type: String,
+			required: true,
+		},
+		role: {
 			type: String,
 			required: true,
 		},

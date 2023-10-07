@@ -24,12 +24,21 @@ export class AuthService {
     console.log(email, password);
   }
 
-  isAuthenticated(): any {
+  isAuthenticated(url: any): any {
     return this.http
       .get(this.api_url + 'login', { withCredentials: true })
       .pipe(
         map((auth: any) => {
-          return auth.message == 'Authenticated';
+          if (url == '/app/admin') {
+            return auth.message == 'Authenticated' && auth.role == 'admin';
+          } else if (url == '/app/seller') {
+            return (
+              auth.message == 'Authenticated' &&
+              (auth.role == 'seller' || auth.role == 'admin')
+            );
+          } else {
+            return auth.message == 'Authenticated';
+          }
         }),
         catchError((err) => {
           this.router.navigate(['/login']);

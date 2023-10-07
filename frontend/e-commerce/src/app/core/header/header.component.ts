@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AvatarModule } from 'primeng/avatar';
 import { MenuModule } from 'primeng/menu';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -15,6 +16,7 @@ export class HeaderComponent implements OnInit {
     'https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png';
   user: any = {};
   items: any;
+  constructor(private router: Router) {}
   ngOnInit() {
     this.user = JSON.parse(sessionStorage.getItem('user')!);
     this.profilePicture = `data:${this.user.content_type};base64,${this.user.profile_picture}`;
@@ -33,22 +35,34 @@ export class HeaderComponent implements OnInit {
         label: 'Navigate',
         items: [
           {
+            label: 'Home',
+            icon: 'pi pi-home',
+            command: () => {
+              this.router.navigate(['app/products']);
+            },
+          },
+          {
             label: 'Admin',
             icon: 'pi pi-spin pi-cog',
-            url: 'http://angular.io',
+            command: () => {
+              this.router.navigate(['app/admin']);
+            },
           },
           {
             label: 'Seller',
             icon: 'pi pi-shopping-bag',
-            routerLink: '/fileupload',
+            command: () => {
+              this.router.navigate(['app/seller']);
+            },
           },
           {
             label: '<span style="color:red">Logout</span>',
 
             escape: false,
             icon: 'pi pi-sign-out',
-            routerLink: '/fileupload',
-            iconClass: 'logout-icon',
+            command: () => {
+              this.router.navigate(['/login']);
+            },
           },
         ],
       },

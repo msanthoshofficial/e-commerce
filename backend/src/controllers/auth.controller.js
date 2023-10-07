@@ -13,7 +13,7 @@ exports.authenticate = async (req, res, next) => {
 		if (!email || !password) throw new Error("Empty Email or Password");
 		const hashed_password = await user_model.User.findOne(
 			{ email: email },
-			"password"
+			"password role"
 		);
 		const is_valid = await bcrypt.compare(
 			password,
@@ -23,6 +23,7 @@ exports.authenticate = async (req, res, next) => {
 			const token = jwt_generator({
 				email: email,
 				id: hashed_password.id,
+				role: hashed_password.role,
 			});
 			res.cookie("token", token, {
 				httpOnly: true,

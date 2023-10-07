@@ -46,6 +46,7 @@ exports.create_user = async (req, res) => {
 			var { email, password, phone, address } = req.body;
 			const username = email.split("@")[0];
 			password = await bcrypt.hash(password, 10);
+			const role = "customer";
 			const user = new user_model.UserProfile({
 				username,
 				phone,
@@ -54,6 +55,7 @@ exports.create_user = async (req, res) => {
 				content_type,
 				email,
 				password,
+				role,
 			});
 			await user.save();
 			return res
@@ -71,7 +73,7 @@ exports.get_user = async (req, res, next) => {
 		const email = req.email;
 		const user = await user_model.User.findOne(
 			{ email: email },
-			"username email"
+			"username email role"
 		);
 		res.status(200).json(user);
 	} catch (err) {
@@ -85,7 +87,7 @@ exports.get_profile = async (req, res, next) => {
 		const email = req.email;
 		var user = await user_model.User.findOne(
 			{ email: email },
-			"username email profile_picture phone address content_type"
+			"username email profile_picture phone address content_type role"
 		);
 		user["profile_picture"] = user["profile_picture"].toString("base64");
 		res.status(200).json(user);
