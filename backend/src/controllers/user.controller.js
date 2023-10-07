@@ -29,7 +29,6 @@ exports.create_user = async (req, res) => {
 	try {
 		upload(req, res, async function (err) {
 			if (err) {
-				console.log(err);
 				return res.status(500).json({
 					message:
 						"Can't Create Product. Only JPG, JPEG, PNG files within 1mb are supported",
@@ -43,10 +42,12 @@ exports.create_user = async (req, res) => {
 			const profile_picture = req.file.buffer.toString("base64");
 			//const profile_picture = req.file.buffer;
 			const content_type = req.file.mimetype;
-			var { email, password, phone, address } = req.body;
+			var { email, password, phone, address, role } = req.body;
 			const username = email.split("@")[0];
 			password = await bcrypt.hash(password, 10);
-			const role = "customer";
+			if (role != "customer" && role != "seller") {
+				throw new Error("Invalid Role");
+			}
 			const user = new user_model.UserProfile({
 				username,
 				phone,

@@ -10,7 +10,7 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { InputMaskModule } from 'primeng/inputmask';
-import { FileUploadModule } from 'primeng/fileupload';
+import { InputSwitchModule } from 'primeng/inputswitch';
 
 import {
   FormControl,
@@ -36,7 +36,7 @@ import { DataService } from 'src/app/services/data/data.service';
     ToastModule,
     InputTextareaModule,
     InputMaskModule,
-    FileUploadModule,
+    InputSwitchModule,
   ],
   providers: [AuthService, MessageService, DataService],
   templateUrl: './login.component.html',
@@ -53,6 +53,7 @@ export class LoginComponent {
   value: any;
   imageUrl: string | null = null;
   formToggled: boolean = false;
+  seller = false;
   loginform = new FormGroup({
     email: new FormControl('', [
       Validators.required,
@@ -80,6 +81,7 @@ export class LoginComponent {
       Validators.minLength(14),
       Validators.maxLength(14),
     ]),
+    seller: new FormControl(false, [Validators.required]),
     password: new FormControl('', [
       Validators.required,
       Validators.minLength(6),
@@ -120,6 +122,10 @@ export class LoginComponent {
     formData.append('email', this.registerform.value.email!);
     formData.append('address', this.registerform.value.address!);
     formData.append('phone', this.registerform.value.phone!);
+    formData.append(
+      'role',
+      this.registerform.value.seller! ? 'seller' : 'customer'
+    );
     formData.append('password', this.registerform.value.password!);
     const profile_picture = this.registerform.get('profile_picture')?.value;
     if (profile_picture instanceof File) {
@@ -127,7 +133,6 @@ export class LoginComponent {
     }
     this.dataService.registerUser(formData).subscribe(
       (res: loginResponse) => {
-        console.log(res.message == 'User created successfully');
         this.clearFileInput();
         this.messageService.add({
           severity: 'success',

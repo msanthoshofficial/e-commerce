@@ -83,6 +83,10 @@
             placeholder="+999-9999999999"></p-inputMask>
         </div>
         <div class="form-control">
+          <label for="seller">Seller Account</label>
+          <p-inputSwitch formControlName="seller"></p-inputSwitch>
+        </div>
+        <div class="form-control">
           <label for="email">Password</label>
           <p-password [style]="{ width: '100%' }" [inputStyle]="{ width: '100%' }" type="password" [toggleMask]="true"
             placeholder="password" formControlName="password">
