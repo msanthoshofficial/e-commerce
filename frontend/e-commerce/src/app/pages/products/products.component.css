@@ -1,13 +1,24 @@
-.banner{
-    margin-inline: 10%;
-    margin-block: 20px;
-    background-color: #282e38;
-    width: auto;
-    height: auto;
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    padding: 10px;
+.banner {
+  margin-inline: 10%;
+  margin-block: 20px;
+  background-color: #282e38;
+  width: auto;
+  height: auto;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  padding: 10px;
+}
+
+.tool {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-block: 10px;
+}
+
+.tool-button {
+  margin-inline: 10px;
 }

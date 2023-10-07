@@ -18,4 +18,9 @@ export class DataService {
       withCredentials: true,
     });
   }
+  getProducts() {
+    return this.http.get(this.api_url + 'product', {
+      withCredentials: true,
+    });
+  }
 }

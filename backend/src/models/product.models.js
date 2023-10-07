@@ -26,6 +26,10 @@ const productSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
+		content_type: {
+			type: String,
+			required: true,
+		},
 	},
 	{ collection: "products" }
 );
