@@ -41,20 +41,28 @@ export class HeaderComponent implements OnInit {
               this.router.navigate(['app/products']);
             },
           },
-          {
-            label: 'Admin',
-            icon: 'pi pi-spin pi-cog',
-            command: () => {
-              this.router.navigate(['app/admin']);
-            },
-          },
-          {
-            label: 'Seller',
-            icon: 'pi pi-shopping-bag',
-            command: () => {
-              this.router.navigate(['app/seller']);
-            },
-          },
+          ...(this.user.role == 'admin'
+            ? [
+                {
+                  label: 'Admin',
+                  icon: 'pi pi-spin pi-cog',
+                  command: () => {
+                    this.router.navigate(['app/admin']);
+                  },
+                },
+              ]
+            : []),
+          ...(this.user.role == 'admin' || this.user.role == 'seller'
+            ? [
+                {
+                  label: 'Seller',
+                  icon: 'pi pi-shopping-bag',
+                  command: () => {
+                    this.router.navigate(['app/seller']);
+                  },
+                },
+              ]
+            : []),
           {
             label: '<span style="color:red">Logout</span>',
 
