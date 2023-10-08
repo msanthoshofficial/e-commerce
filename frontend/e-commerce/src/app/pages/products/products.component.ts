@@ -34,10 +34,7 @@ export class ProductsComponent implements OnInit {
 
   addToCart(productId: number) {
     this.dataService.addToCart(productId).subscribe((data: any) => {
-      console.log(data);
-      this.dataService.getCart().subscribe((data: any) => {
-        console.log(data);
-      });
+      this.dataService.emitCartCountUpdated();
     });
   }
 

@@ -5,11 +5,20 @@ import { MenuModule } from 'primeng/menu';
 import { Router } from '@angular/router';
 import { BadgeModule } from 'primeng/badge';
 import { DataService } from 'src/app/services/data/data.service';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { CartListComponent } from 'src/app/components/cart-list/cart-list.component';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, AvatarModule, MenuModule, BadgeModule],
+  imports: [
+    CommonModule,
+    AvatarModule,
+    MenuModule,
+    BadgeModule,
+    OverlayPanelModule,
+    CartListComponent,
+  ],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
 })

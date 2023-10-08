@@ -16,9 +16,11 @@
           <h4>{{ '₹' + product.price }}</h4>
           <p-rating [(ngModel)]="product.rating" [readonly]="true" [cancel]="false"></p-rating>
           <div class="tool">
-            <p-button type="button" class="tool-button" styleClass="p-button p-button-rounded" icon="pi pi-search">
+            <p-button type="button" class="tool-button"
+              styleClass=" p-button p-button-rounded p-button-text p-button-raised" icon="pi pi-search">
             </p-button>
-            <p-button type="button" class="tool-button" styleClass="p-button-success p-button-rounded"
+            <p-button type="button" class="tool-button"
+              styleClass="p-button-success p-button p-button-rounded p-button-text p-button-raised"
               (onClick)="addToCart(product._id)" icon="pi pi-cart-plus">
             </p-button>
           </div>

@@ -4,7 +4,7 @@
     font-size: 1.8rem;"><span><i style="    font-size: 1.5rem;
     color: #00e190;" class="pi pi-shopping-bag"></i></span> Shopping Platform</h2>
     <div class="right-section">
-      <i class="pi pi-shopping-cart" pBadge [value]="cart_items_count"
+      <i class="pi pi-shopping-cart" pBadge [value]="cart_items_count" (click)="op.toggle($event)"
         style="color: #51f2b8;font-size: 2rem;margin-inline: 2rem;cursor: pointer;"></i>
 
       <p-avatar [image]="profilePicture" (click)="menu.toggle($event)"
@@ -13,3 +13,6 @@
   </div>
 </header>
 <p-menu #menu [model]="items" [popup]="true"></p-menu>
+<p-overlayPanel #op>
+  <app-cart-list></app-cart-list>
+</p-overlayPanel>

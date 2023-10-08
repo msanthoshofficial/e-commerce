@@ -29,13 +29,12 @@ export class DataService {
       withCredentials: true,
     });
   }
-  getCart() {
+  getCartProducts() {
     return this.http.get(this.api_url + 'cart', {
       withCredentials: true,
     });
   }
   addToCart(productId: number) {
-    this.cartCountUpdated.emit({ message: 'Cart Updated' });
     return this.http.post(
       this.api_url + 'cart',
       { productId },
@@ -43,5 +42,8 @@ export class DataService {
         withCredentials: true,
       }
     );
+  }
+  emitCartCountUpdated() {
+    this.cartCountUpdated.emit({ message: 'Cart Updated' });
   }
 }

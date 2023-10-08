@@ -1,0 +1,12 @@
+<p-table [value]="products" styleClass="p-datatable-sm">
+  <ng-template pTemplate="header">
+  </ng-template>
+  <ng-template pTemplate="body" let-product>
+    <tr>
+      <td><img [src]="'https://primefaces.org/cdn/primeng/images/demo/product/' + product.image" [alt]="product.name"
+          width="100" class="shadow-4" /></td>
+      <td>{{product.name}}</td>
+      <td>{{product.price | currency:'USD'}}</td>
+    </tr>
+  </ng-template>
+</p-table>
