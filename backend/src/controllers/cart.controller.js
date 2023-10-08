@@ -1,5 +1,28 @@
 const { cartModel } = require("../models/cart.model");
 
+exports.getCartItemCount = async (req, res) => {
+	try {
+		const userId = req.id;
+		// Find the user's cart
+		const userCart = await cartModel.findOne({ user_id: userId });
+
+		if (!userCart) {
+			return res
+				.status(404)
+				.json({ message: "User does not have a cart" });
+		}
+
+		// Calculate the total count of items in the cart
+		const itemCount = userCart.products.reduce(
+			(total, product) => total + product.quantity,
+			0
+		);
+
+		return res.status(200).json({ itemCount });
+	} catch (err) {
+		return res.status(500).json({ message: "Can't get cart item count" });
+	}
+};
 exports.getCartByUserId = async (req, res) => {
 	try {
 		const userId = req.id;

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class DataService {
   readonly api_url = 'http://localhost:8000/api/';
+  cartCountUpdated = new EventEmitter<Object>();
   constructor(private http: HttpClient) {}
 
   registerUser(formData: FormData) {
@@ -22,5 +23,25 @@ export class DataService {
     return this.http.get(this.api_url + 'product', {
       withCredentials: true,
     });
+  }
+  getCartCount() {
+    return this.http.get(this.api_url + 'cart/count', {
+      withCredentials: true,
+    });
+  }
+  getCart() {
+    return this.http.get(this.api_url + 'cart', {
+      withCredentials: true,
+    });
+  }
+  addToCart(productId: number) {
+    this.cartCountUpdated.emit({ message: 'Cart Updated' });
+    return this.http.post(
+      this.api_url + 'cart',
+      { productId },
+      {
+        withCredentials: true,
+      }
+    );
   }
 }

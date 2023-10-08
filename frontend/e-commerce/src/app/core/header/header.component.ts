@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { AvatarModule } from 'primeng/avatar';
 import { MenuModule } from 'primeng/menu';
 import { Router } from '@angular/router';
+import { BadgeModule } from 'primeng/badge';
+import { DataService } from 'src/app/services/data/data.service';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, AvatarModule, MenuModule],
+  imports: [CommonModule, AvatarModule, MenuModule, BadgeModule],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
 })
@@ -16,7 +18,8 @@ export class HeaderComponent implements OnInit {
     'https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png';
   user: any = {};
   items: any;
-  constructor(private router: Router) {}
+  cart_items_count = '0';
+  constructor(private router: Router, private dataService: DataService) {}
   ngOnInit() {
     this.user = JSON.parse(sessionStorage.getItem('user')!);
     this.profilePicture = `data:${this.user.content_type};base64,${this.user.profile_picture}`;
@@ -75,5 +78,14 @@ export class HeaderComponent implements OnInit {
         ],
       },
     ];
+    this.getCartCount();
+    this.dataService.cartCountUpdated.subscribe((res: any) => {
+      this.getCartCount();
+    });
+  }
+  getCartCount() {
+    this.dataService.getCartCount().subscribe((res: any) => {
+      this.cart_items_count = res.itemCount.toString();
+    });
   }
 }

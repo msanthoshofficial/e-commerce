@@ -3,6 +3,9 @@ const router = express.Router();
 const cartController = require("../controllers/cart.controller");
 const { jwt_verify } = require("../middlewares/auth");
 
+// Get user's cart count
+router.get("/count", jwt_verify, cartController.getCartItemCount);
+
 // Get user's cart
 router.get("/", jwt_verify, cartController.getCartByUserId);
 

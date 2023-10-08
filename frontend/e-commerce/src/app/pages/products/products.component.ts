@@ -31,6 +31,16 @@ export class ProductsComponent implements OnInit {
       this.products = data;
     });
   }
+
+  addToCart(productId: number) {
+    this.dataService.addToCart(productId).subscribe((data: any) => {
+      console.log(data);
+      this.dataService.getCart().subscribe((data: any) => {
+        console.log(data);
+      });
+    });
+  }
+
   responsiveOptions = [
     {
       breakpoint: '1024px',
