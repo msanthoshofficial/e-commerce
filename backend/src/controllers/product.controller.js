@@ -34,6 +34,17 @@ exports.getAllProducts = async (req, res) => {
 	}
 };
 
+// Controller function to get all products
+exports.getMyProducts = async (req, res) => {
+	try {
+		const seller_id = req.id;
+		const products = await Product.find({ seller_id: seller_id });
+		res.json(products);
+	} catch (error) {
+		res.status(500).json({ error: error.message });
+	}
+};
+
 // Controller function to get a single product by ID
 exports.getProductById = async (req, res) => {
 	try {

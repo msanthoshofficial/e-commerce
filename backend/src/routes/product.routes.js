@@ -7,6 +7,9 @@ const auth = require("../middlewares/auth");
 // Route to get all products
 router.get("/", auth.jwt_verify, productController.getAllProducts);
 
+// Route to get all products
+router.get("/my-products", auth.jwt_verify, productController.getMyProducts);
+
 // Route to get a single product by ID
 router.get("/:id", auth.jwt_verify, productController.getProductById);
 
@@ -17,6 +20,6 @@ router.post("/", auth.jwt_verify, productController.createProduct);
 router.put("/:id", auth.jwt_verify, productController.updateProduct);
 
 // Route to delete a product by ID
-router.delete("/:id", productController.deleteProduct);
+router.delete("/:id", auth.jwt_verify, productController.deleteProduct);
 
 module.exports = router;

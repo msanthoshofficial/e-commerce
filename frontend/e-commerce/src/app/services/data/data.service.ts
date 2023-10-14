@@ -24,6 +24,11 @@ export class DataService {
       withCredentials: true,
     });
   }
+  getMyProducts() {
+    return this.http.get(this.api_url + 'product/my-products', {
+      withCredentials: true,
+    });
+  }
   getCartCount() {
     return this.http.get(this.api_url + 'cart/count', {
       withCredentials: true,

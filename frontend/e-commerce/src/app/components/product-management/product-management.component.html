@@ -1,0 +1,63 @@
+<div class="card">
+  <div style="display: flex;
+      justify-content: space-between;
+      align-items: center;">
+    <h5>Manage My Products</h5>
+    <div>
+
+      <p-button [ngStyle]="{'margin-inline':'20px'}" pRipple
+        styleClass="p-button-warning p-button p-button-sm p-button-text p-button-raised" label="Add Product"
+        icon="pi pi-plus"></p-button>
+      <div class="p-input-icon-left">
+        <i class="pi pi-search"></i>
+        <input pInputText class="p-inputtext-sm" type="text" #search (input)="dt.filterGlobal(search.value, 'contains')"
+          placeholder="Search..." />
+      </div>
+    </div>
+  </div>
+
+  <p-table #dt [value]="products" [rows]="6" [paginator]="true" styleClass="p-datatable-sm"
+    [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']"
+    [tableStyle]="{ 'min-width': '75rem' }" [rowHover]="true" dataKey="id">
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 4rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th pSortableColumn="name" style="min-width:15rem">Name <p-sortIcon field="name"></p-sortIcon>
+        </th>
+        <th>Image</th>
+        <th pSortableColumn="price">Price <p-sortIcon field="price"></p-sortIcon>
+        </th>
+        <th pSortableColumn="rating">Rating <p-sortIcon field="rating"></p-sortIcon>
+        </th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-product>
+      <tr>
+        <td>
+          <p-tableCheckbox [value]="product"></p-tableCheckbox>
+        </td>
+        <td>{{ product.name }}</td>
+        <td><img src="{{ 'data:'+product.content_type+';base64,'+product.image }}" [alt]="product.name" width="50"
+            class="shadow-4" /></td>
+        <td>{{ product.price | currency: 'INR' }}</td>
+        <td>{{product.rating}}</td>
+        <td>
+          <p-button type="button" [ngStyle]="{'margin-inline':'10px'}"
+            styleClass="p-button-primary p-button p-button-rounded p-button-text p-button-raised" icon="pi pi-pencil">
+          </p-button>
+          <p-button type="button" [ngStyle]="{'margin-inline':'10px'}"
+            styleClass="p-button-danger p-button p-button-rounded p-button-text p-button-raised" icon="pi pi-trash">
+          </p-button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+<p-dialog [(visible)]="productDialog" [style]="{ width: '450px' }" header="Product Details" [modal]="true"
+  styleClass="p-fluid">
+
+</p-dialog>
