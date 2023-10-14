@@ -6,6 +6,7 @@ import { DataService } from 'src/app/services/data/data.service';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
+import { RatingModule } from 'primeng/rating';
 
 @Component({
   selector: 'app-product-management',
@@ -17,6 +18,7 @@ import { FormsModule } from '@angular/forms';
     ButtonModule,
     InputTextModule,
     FormsModule,
+    RatingModule,
   ],
   templateUrl: './product-management.component.html',
   styleUrls: ['./product-management.component.css'],

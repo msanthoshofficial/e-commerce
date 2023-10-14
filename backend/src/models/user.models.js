@@ -35,7 +35,7 @@ const userSchema = new mongoose.Schema(
 			required: true,
 		},
 	},
-	{ collection: "users" }
+	{ collection: "users", timestamps: true }
 );
 const userProfileSchema = new mongoose.Schema(
 	{
