@@ -67,7 +67,8 @@ exports.createProduct = async (req, res) => {
 				});
 			}
 
-			const { name, description, price, rating } = req.body;
+			const { name, description, price, quantity } = req.body;
+			const rating = 0;
 			const seller_id = req.id;
 			const image = req.file ? req.file.buffer.toString("base64") : null;
 			if (!image)
@@ -81,6 +82,7 @@ exports.createProduct = async (req, res) => {
 					description,
 					price,
 					rating,
+					quantity,
 					image,
 					seller_id,
 				});
@@ -120,7 +122,7 @@ exports.updateProduct = async (req, res) => {
 							name: req.body.name,
 							description: req.body.description,
 							price: req.body.price,
-							rating: req.body.rating,
+							quantity: req.body.quantity,
 							// Handle image update
 							...(req.file && {
 								image: req.file.buffer.toString("base64"),
