@@ -1,12 +1,35 @@
-<p-table [value]="products" styleClass="p-datatable-sm">
-  <ng-template pTemplate="header">
-  </ng-template>
+<p-table #dt [value]="products" styleClass="p-datatable-sm" [paginator]="true" [rows]="5"
+  [showCurrentPageReport]="true">
   <ng-template pTemplate="body" let-product>
     <tr>
-      <td><img [src]="'https://primefaces.org/cdn/primeng/images/demo/product/' + product.image" [alt]="product.name"
-          width="100" class="shadow-4" /></td>
-      <td>{{product.name}}</td>
-      <td>{{product.price | currency:'USD'}}</td>
+      <td><img src="{{ 'data:'+product.productDetails.content_type+';base64,'+product.productDetails.image }}"
+          [alt]="product.productDetails.name" width="100" /></td>
+      <td>{{product.productDetails.name}}</td>
+      <td>{{product.quantity}}</td>
+      <td>
+        <div class="bt">
+          <p-button styleClass="p-button-sm p-button-success p-button p-button-rounded p-button-text " icon="pi pi-plus"
+            (onClick)="increment(product.product_id)">
+          </p-button>
+          <p-tag severity="Warning" [ngStyle]="{'margin-inline':'5px'}" styleClass="p-tag-rounded"
+            [value]="product.quantity"></p-tag>
+          <p-button styleClass="p-button-sm p-button-rounded p-button-danger
+          p-button p-button-text" icon="pi pi-minus" (onClick)="decrement(product.product_id)">
+          </p-button>
+        </div>
+      </td>
+      <td>{{product.productDetails.price*product.quantity | currency:'INR'}}</td>
+      <td>
+        <p-button styleClass="p-button-sm p-button-rounded p-button-danger
+        p-button p-button-text" icon="pi pi-trash" (onClick)="deleteFromCart(product.product_id)">
+        </p-button>
+      </td>
     </tr>
+  </ng-template>
+  <ng-template pTemplate="summary">
+    <div style="display: flex;align-items: center;justify-content: flex-end;">Cart Total : {{cartSum | currency:'INR'}}
+      <p-button [ngStyle]="{'margin-inline':'10px'}" styleClass="p-button-sm p-button-raised p-button-success
+      p-button " label="Buy"></p-button>
+    </div>
   </ng-template>
 </p-table>

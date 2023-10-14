@@ -34,7 +34,7 @@ export class DataService {
       withCredentials: true,
     });
   }
-  addToCart(productId: number) {
+  addToCart(productId: String) {
     return this.http.post(
       this.api_url + 'cart',
       { productId },
@@ -43,6 +43,21 @@ export class DataService {
       }
     );
   }
+  reduceQuantity(productId: String) {
+    return this.http.post(
+      this.api_url + 'cart/reduce',
+      { productId },
+      {
+        withCredentials: true,
+      }
+    );
+  }
+  deleteFromCart(productId: String) {
+    return this.http.delete(this.api_url + 'cart/' + productId, {
+      withCredentials: true,
+    });
+  }
+
   emitCartCountUpdated() {
     this.cartCountUpdated.emit({ message: 'Cart Updated' });
   }

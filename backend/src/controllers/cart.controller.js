@@ -1,4 +1,5 @@
 const { cartModel } = require("../models/cart.model");
+const { Product } = require("../models/product.models");
 
 exports.getCartItemCount = async (req, res) => {
 	try {
@@ -75,7 +76,7 @@ exports.addToCart = async (req, res) => {
 
 exports.removeFromCart = async (req, res) => {
 	try {
-		const { productId } = req.body;
+		const productId = req.params.productId;
 
 		const userId = req.id;
 		// Find the user's cart
@@ -102,5 +103,88 @@ exports.removeFromCart = async (req, res) => {
 		return res
 			.status(500)
 			.json({ message: "Can't remove product from cart" });
+	}
+};
+
+exports.getCartItemsWithDetails = async (req, res) => {
+	try {
+		const userId = req.id; // Assuming userId is passed as a parameter
+
+		// Find the user's cart
+		const userCart = await cartModel.findOne({ user_id: userId });
+
+		if (!userCart) {
+			return res
+				.status(404)
+				.json({ message: "User does not have a cart" });
+		}
+
+		// Retrieve product details for each item in the cart
+		const cartItemsWithDetails = await Promise.all(
+			userCart.products.map(async (cartItem) => {
+				const productDetails = await Product.findById(
+					cartItem.product_id
+				);
+				return {
+					product_id: cartItem.product_id,
+					quantity: cartItem.quantity,
+					productDetails,
+				};
+			})
+		);
+
+		return res.status(200).json({ cartItems: cartItemsWithDetails });
+	} catch (err) {
+		return res
+			.status(500)
+			.json({ message: "Can't get cart items with details" });
+	}
+};
+
+exports.reduceCartItemQuantity = async (req, res) => {
+	try {
+		const { productId } = req.body;
+		const userId = req.id;
+
+		// Find the user's cart
+		const userCart = await cartModel.findOne({ user_id: userId });
+
+		if (!userCart) {
+			return res
+				.status(404)
+				.json({ message: "User does not have a cart" });
+		}
+
+		// Find the index of the product in the cart
+		const productIndex = userCart.products.findIndex(
+			(product) => product.product_id.toString() === productId
+		);
+
+		if (productIndex === -1) {
+			return res
+				.status(404)
+				.json({ message: "Product not found in the cart" });
+		}
+
+		// Reduce the quantity of the product (assuming quantity cannot be negative)
+		if (userCart.products[productIndex].quantity > 1) {
+			userCart.products[productIndex].quantity -= 1;
+		} else {
+			// If the quantity is 1
+			return res
+				.status(500)
+				.json({ message: "Can't reduce cart item quantity" });
+		}
+
+		// Save the updated cart
+		await userCart.save();
+
+		return res
+			.status(200)
+			.json({ message: "Cart item quantity reduced successfully" });
+	} catch (err) {
+		return res
+			.status(500)
+			.json({ message: "Can't reduce cart item quantity" });
 	}
 };

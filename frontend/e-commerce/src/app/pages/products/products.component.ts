@@ -21,10 +21,7 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./products.component.css'],
 })
 export class ProductsComponent implements OnInit {
-  constructor(
-    private authService: AuthService,
-    private dataService: DataService
-  ) {}
+  constructor(private dataService: DataService) {}
   products = [];
   ngOnInit(): void {
     this.dataService.getProducts().subscribe((data: any) => {
@@ -32,7 +29,7 @@ export class ProductsComponent implements OnInit {
     });
   }
 
-  addToCart(productId: number) {
+  addToCart(productId: String) {
     this.dataService.addToCart(productId).subscribe((data: any) => {
       this.dataService.emitCartCountUpdated();
     });

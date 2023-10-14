@@ -2,33 +2,50 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { DataService } from 'src/app/services/data/data.service';
+import { ButtonModule } from 'primeng/button';
+import { TagModule } from 'primeng/tag';
 
 @Component({
   selector: 'app-cart-list',
   standalone: true,
-  imports: [CommonModule, TableModule],
+  imports: [CommonModule, TableModule, ButtonModule, TagModule],
   templateUrl: './cart-list.component.html',
-  styles: [],
+  styleUrls: ['./cart-list.component.css'],
 })
 export class CartListComponent implements OnInit {
   constructor(private dataService: DataService) {}
-  products = [
-    {
-      id: '1000',
-      code: 'f230fh0g3',
-      name: 'Bamboo Watch',
-      description: 'Product Description',
-      image: 'bamboo-watch.jpg',
-      price: 65,
-      category: 'Accessories',
-      quantity: 24,
-      inventoryStatus: 'INSTOCK',
-      rating: 5,
-    },
-  ];
+  loading = true;
+  products: any;
+  cartSum = 0;
   ngOnInit(): void {
-    this.dataService.getCartProducts().subscribe((data) => {
-      console.log(data);
+    this.getCartItems();
+    this.dataService.cartCountUpdated.subscribe((data: any) => {
+      this.getCartItems();
+    });
+  }
+  getCartItems() {
+    this.dataService.getCartProducts().subscribe((data: any) => {
+      this.products = data.cartItems;
+      this.cartSum = 0;
+      this.products.forEach((item: any) => {
+        this.cartSum += item.productDetails.price * item.quantity;
+      });
+      this.loading = false;
+    });
+  }
+  increment(product_id: String) {
+    this.dataService.addToCart(product_id).subscribe((res: any) => {
+      this.getCartItems();
+    });
+  }
+  decrement(product_id: String) {
+    this.dataService.reduceQuantity(product_id).subscribe((res: any) => {
+      this.getCartItems();
+    });
+  }
+  deleteFromCart(product_id: String) {
+    this.dataService.deleteFromCart(product_id).subscribe((res: any) => {
+      this.getCartItems();
     });
   }
 }

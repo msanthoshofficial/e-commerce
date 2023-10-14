@@ -7,12 +7,15 @@ const { jwt_verify } = require("../middlewares/auth");
 router.get("/count", jwt_verify, cartController.getCartItemCount);
 
 // Get user's cart
-router.get("/", jwt_verify, cartController.getCartByUserId);
+router.get("/", jwt_verify, cartController.getCartItemsWithDetails);
 
 // Add to cart
 router.post("/", jwt_verify, cartController.addToCart);
 
+// Reduce Quantity
+router.post("/reduce", jwt_verify, cartController.reduceCartItemQuantity);
+
 // Remove from cart
-router.delete("/", jwt_verify, cartController.removeFromCart);
+router.delete("/:productId", jwt_verify, cartController.removeFromCart);
 
 module.exports = router;

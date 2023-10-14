@@ -1,16 +1,16 @@
 .copyright {
-    position: absolute;
-    bottom: 0px;
-    width: 100%;
-    border-top: 1px solid gainsboro;
-    display: flex;
-    color: #a7a7a7;
-    justify-content: space-between;
-    align-items: center;
-    padding-block: 10px;
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  border-top: 1px solid gainsboro;
+  display: flex;
+  color: #fff;
+  justify-content: space-between;
+  align-items: center;
+  padding-block: 2px;
+  background: #282e38;
 }
-.footer-menu{
-    
+.footer-menu {
   display: flex;
   justify-content: space-between;
   align-items: center;

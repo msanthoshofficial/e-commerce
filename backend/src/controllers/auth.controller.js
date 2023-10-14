@@ -15,6 +15,9 @@ exports.authenticate = async (req, res, next) => {
 			{ email: email },
 			"password role"
 		);
+		if (!hashed_password) {
+			return res.status(400).json({ message: "User Not Found" });
+		}
 		const is_valid = await bcrypt.compare(
 			password,
 			hashed_password.password

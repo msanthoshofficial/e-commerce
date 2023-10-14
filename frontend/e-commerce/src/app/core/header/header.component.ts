@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { BadgeModule } from 'primeng/badge';
 import { DataService } from 'src/app/services/data/data.service';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { DialogModule } from 'primeng/dialog';
 import { CartListComponent } from 'src/app/components/cart-list/cart-list.component';
 
 @Component({
@@ -18,6 +19,7 @@ import { CartListComponent } from 'src/app/components/cart-list/cart-list.compon
     BadgeModule,
     OverlayPanelModule,
     CartListComponent,
+    DialogModule,
   ],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
@@ -28,6 +30,8 @@ export class HeaderComponent implements OnInit {
   user: any = {};
   items: any;
   cart_items_count = '0';
+  products = [];
+  show = false;
   constructor(private router: Router, private dataService: DataService) {}
   ngOnInit() {
     this.user = JSON.parse(sessionStorage.getItem('user')!);
