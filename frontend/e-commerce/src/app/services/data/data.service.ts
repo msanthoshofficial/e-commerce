@@ -29,6 +29,16 @@ export class DataService {
       withCredentials: true,
     });
   }
+  addProduct(formData: FormData) {
+    return this.http.post(this.api_url + 'product', formData, {
+      withCredentials: true,
+    });
+  }
+  updateProduct(formData: FormData, id: string) {
+    return this.http.put(this.api_url + 'product/' + id, formData, {
+      withCredentials: true,
+    });
+  }
   getCartCount() {
     return this.http.get(this.api_url + 'cart/count', {
       withCredentials: true,

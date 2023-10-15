@@ -4,3 +4,8 @@
   margin-block: 15px;
   box-shadow: 3px 1px 10px 7px rgb(223 223 223 / 50%);
 }
+.form-control {
+  margin-block: 20px;
+  display: flex;
+  flex-direction: column;
+}

@@ -67,15 +67,20 @@ exports.createProduct = async (req, res) => {
 				});
 			}
 
-			const { name, description, price, quantity } = req.body;
+			var { name, description, price, quantity } = req.body;
+			price = parseFloat(price);
+			quantity = parseFloat(quantity);
 			const rating = 0;
 			const seller_id = req.id;
 			const image = req.file ? req.file.buffer.toString("base64") : null;
-			if (!image)
+
+			const content_type = req.file.mimetype;
+			if (!image) {
 				return res.status(500).json({
 					message:
 						"Can't Create Product. Only JPG, JPEG, PNG files within 1mb are supported",
 				});
+			}
 			try {
 				const product = await Product.create({
 					name,
@@ -85,6 +90,7 @@ exports.createProduct = async (req, res) => {
 					quantity,
 					image,
 					seller_id,
+					content_type,
 				});
 
 				return res
@@ -121,11 +127,14 @@ exports.updateProduct = async (req, res) => {
 						$set: {
 							name: req.body.name,
 							description: req.body.description,
-							price: req.body.price,
-							quantity: req.body.quantity,
+							price: parseFloat(req.body.price),
+							quantity: parseFloat(req.body.quantity),
 							// Handle image update
 							...(req.file && {
 								image: req.file.buffer.toString("base64"),
+							}),
+							...(req.file && {
+								content_type: req.file.mimetype,
 							}),
 						},
 					},

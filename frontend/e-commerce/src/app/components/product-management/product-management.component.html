@@ -1,3 +1,5 @@
+<p-toast></p-toast>
+
 <div class="card">
   <div style="display: flex;
       justify-content: space-between;
@@ -6,6 +8,7 @@
     <div>
 
       <p-button [ngStyle]="{'margin-inline':'20px'}" pRipple
+        (onClick)="productForm.reset();fileupload.clear();selectedProductId=null;editMode=false;addDialog=true"
         styleClass="p-button-warning p-button p-button-sm p-button-text p-button-raised" label="Add Product"
         icon="pi pi-plus"></p-button>
       <div class="p-input-icon-left">
@@ -32,6 +35,8 @@
         </th>
         <th pSortableColumn="rating">Rating <p-sortIcon field="rating"></p-sortIcon>
         </th>
+        <th pSortableColumn="quantity">Quantity <p-sortIcon field="quantity"></p-sortIcon>
+        </th>
         <th></th>
       </tr>
     </ng-template>
@@ -47,8 +52,9 @@
         <td>
           <p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating>
         </td>
+        <td>{{ product.quantity }}</td>
         <td>
-          <p-button type="button" [ngStyle]="{'margin-inline':'10px'}"
+          <p-button type="button" [ngStyle]="{'margin-inline':'10px'}" (onClick)="populateForm(product)"
             styleClass="p-button-primary p-button p-button-rounded p-button-text p-button-raised" icon="pi pi-pencil">
           </p-button>
           <p-button type="button" [ngStyle]="{'margin-inline':'10px'}"
@@ -59,7 +65,43 @@
     </ng-template>
   </p-table>
 </div>
-<p-dialog [(visible)]="productDialog" [style]="{ width: '450px' }" header="Product Details" [modal]="true"
-  styleClass="p-fluid">
+<p-dialog [(visible)]="addDialog" [style]="{ width: '50vh' }" [draggable]="false" [resizable]="false"
+  header="Add Product" [modal]="true" styleClass="p-fluid">
+  <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+    <div class="form-control">
+      <label for="name">Product Name</label>
+      <input type="text" id="name" formControlName="name" placeholder="name" pInputText required>
+    </div>
 
+    <div class="form-control">
+      <label for="quantity">Quantity</label>
+      <p-inputNumber inputId="integeronly" type="number" id="quantity" formControlName="quantity"
+        placeholder="Quantity"></p-inputNumber>
+    </div>
+
+    <div class="form-control">
+      <label for="description">Description</label>
+      <textarea id="description" rows="4" cols="30" style="min-height: 100px;" pInputTextarea
+        formControlName="description" [autoResize]="true" placeholder="description" required></textarea>
+    </div>
+
+    <div class="form-control">
+      <label for="price">Price</label>
+      <p-inputNumber type="number" id="price" formControlName="price" placeholder="price" mode="currency"
+        inputId="currency-india" currency="INR" currencyDisplay="code"></p-inputNumber>
+    </div>
+
+    <div class="form-control">
+      <label for="image">Image</label>
+      <p-fileUpload #fileupload name="image" (uploadHandler)="onFileChange($event)" [auto]="true" [customUpload]="true"
+        chooseStyleClass="p-button-sm p-button-primary p-button p-button-text"
+        removeStyleClass="p-button-sm p-button-warning p-button p-button-rounded p-button-text" accept="image/*"
+        [maxFileSize]="1000000" chooseLabel="Choose">
+      </p-fileUpload>
+    </div>
+
+    <p-button type="submit" [disabled]="productForm.invalid" label="Add Product"
+      styleClass="p-button-sm p-button-primary p-button ">
+    </p-button>
+  </form>
 </p-dialog>
