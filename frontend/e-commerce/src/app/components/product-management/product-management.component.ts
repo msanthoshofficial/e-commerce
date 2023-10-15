@@ -60,6 +60,10 @@ export class ProductManagementComponent implements OnInit {
     private dataService: DataService
   ) {}
   ngOnInit(): void {
+    this.getProducts();
+  }
+
+  getProducts() {
     this.dataService.getMyProducts().subscribe((data: any) => {
       this.products = data;
     });
@@ -132,11 +136,17 @@ export class ProductManagementComponent implements OnInit {
         .updateProduct(formData, this.selectedProductId)
         .subscribe(
           (res: any) => {
+            this.productForm.reset();
+            this.fileupload.clear();
+            this.selectedProductId = null;
+            this.editMode = false;
+            this.addDialog = false;
             this.messageService.add({
               severity: 'success',
               summary: 'Successful',
               detail: 'Product updated successfully',
             });
+            this.getProducts();
           },
           (err) => {
             this.messageService.add({
@@ -149,11 +159,17 @@ export class ProductManagementComponent implements OnInit {
     } else {
       this.dataService.addProduct(formData).subscribe(
         (res: any) => {
+          this.productForm.reset();
+          this.fileupload.clear();
+          this.selectedProductId = null;
+          this.editMode = false;
+          this.addDialog = false;
           this.messageService.add({
             severity: 'success',
             summary: 'Successful',
             detail: 'Product added successfully',
           });
+          this.getProducts();
         },
         (err) => {
           this.messageService.add({
