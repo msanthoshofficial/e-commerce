@@ -76,4 +76,16 @@ export class DataService {
   emitCartCountUpdated() {
     this.cartCountUpdated.emit({ message: 'Cart Updated' });
   }
+
+  createPaymentIntent(
+    amount: number,
+    product: string,
+    paymentMethodId: string
+  ) {
+    return this.http.post<any>(
+      `${this.api_url}/payment/create-payment-intent`,
+      { amount, product, paymentMethodId },
+      { withCredentials: true }
+    );
+  }
 }
