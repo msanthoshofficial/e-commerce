@@ -13,6 +13,7 @@ import { DataService } from 'src/app/services/data/data.service';
 import { CommonModule } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
+import { LoaderComponent } from '../loader/loader.component';
 
 @Component({
   selector: 'app-checkout',
@@ -23,12 +24,14 @@ import { ButtonModule } from 'primeng/button';
     NgxStripeModule,
     InputTextModule,
     ButtonModule,
+    LoaderComponent,
   ],
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.css'],
   providers: [HttpClient],
 })
 export class CheckoutComponent implements OnInit {
+  loaded = false;
   stripe = injectStripe(
     'pk_test_51O1liaSENN4SVfayOpl3y094x9wkvXDdMaVNpjurXkCx1bve8iP021uvWhtbiybD4oABRr0op8E1pQfisvwEWhsB00wgCFFBOQ'
   );
@@ -62,8 +65,8 @@ export class CheckoutComponent implements OnInit {
   ngOnInit() {
     this.createPaymentIntent(this.amount, this.products, this.id).subscribe(
       (pi) => {
-        console.log(pi);
         this.elementsOptions.clientSecret = pi.client_secret!;
+        this.loaded = true;
       }
     );
   }
