@@ -14,6 +14,8 @@ import { CommonModule } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { LoaderComponent } from '../loader/loader.component';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-checkout',
@@ -25,10 +27,11 @@ import { LoaderComponent } from '../loader/loader.component';
     InputTextModule,
     ButtonModule,
     LoaderComponent,
+    ToastModule,
   ],
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.css'],
-  providers: [HttpClient],
+  providers: [HttpClient, MessageService],
 })
 export class CheckoutComponent implements OnInit {
   loaded = false;
@@ -58,8 +61,8 @@ export class CheckoutComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private http: HttpClient,
-    private dataService: DataService
+    private dataService: DataService,
+    private messageService: MessageService
   ) {}
 
   ngOnInit() {
@@ -97,15 +100,21 @@ export class CheckoutComponent implements OnInit {
           this.paying = false;
           console.log('Result', result);
           if (result.error) {
-            // Show error to your customer (e.g., insufficient funds)
-            alert({ success: false, error: result.error.message });
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Payment Error',
+              detail: 'Error Please Retry',
+            });
           } else {
-            // The payment has been processed!
             if (result.paymentIntent.status === 'succeeded') {
-              // Show a success message to your customer
-              alert({ success: true });
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Payment Successful',
+                detail: 'Order Placed Successfully',
+              });
             }
           }
+          this.paymentElementForm.reset();
         });
     } else {
       console.log(this.paymentElementForm);

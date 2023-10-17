@@ -7,7 +7,6 @@ import { HeaderComponent } from './core/header/header.component';
 import { LoginComponent } from './pages/login/login.component';
 import { HttpClientModule } from '@angular/common/http';
 
-
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -17,7 +16,7 @@ import { HttpClientModule } from '@angular/common/http';
     ButtonModule,
     HeaderComponent,
     LoginComponent,
-    HttpClientModule
+    HttpClientModule,
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
