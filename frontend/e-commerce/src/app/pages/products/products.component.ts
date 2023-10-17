@@ -2,11 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CarouselModule } from 'primeng/carousel';
 import { ButtonModule } from 'primeng/button';
-import { AuthService } from 'src/app/services/auth/auth.service';
 import { DataService } from 'src/app/services/data/data.service';
 import { RatingModule } from 'primeng/rating';
 import { FormsModule } from '@angular/forms';
-import { CheckoutComponent } from 'src/app/components/checkout/checkout.component';
 
 @Component({
   selector: 'app-products',
@@ -17,7 +15,6 @@ import { CheckoutComponent } from 'src/app/components/checkout/checkout.componen
     ButtonModule,
     RatingModule,
     FormsModule,
-    CheckoutComponent,
   ],
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.css'],

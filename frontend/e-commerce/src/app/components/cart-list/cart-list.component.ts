@@ -4,16 +4,24 @@ import { TableModule } from 'primeng/table';
 import { DataService } from 'src/app/services/data/data.service';
 import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
+import { CheckoutComponent } from '../checkout/checkout.component';
 
 @Component({
   selector: 'app-cart-list',
   standalone: true,
-  imports: [CommonModule, TableModule, ButtonModule, TagModule],
+  imports: [
+    CommonModule,
+    TableModule,
+    ButtonModule,
+    TagModule,
+    CheckoutComponent,
+  ],
   templateUrl: './cart-list.component.html',
   styleUrls: ['./cart-list.component.css'],
 })
 export class CartListComponent implements OnInit {
   constructor(private dataService: DataService) {}
+  checkout = false;
   loading = true;
   products: any;
   cartSum = 0;

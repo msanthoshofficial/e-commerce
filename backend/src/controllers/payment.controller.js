@@ -1,11 +1,8 @@
 const Order = require("../models/order.model");
-const stripe = require("stripe")(
-	"sk_test_51O1liaSENN4SVfayeKNH0hRXtLkd3ltyxe3Dmq6V0n2iemmNxydDkvGGSy7NRx3MVjsFGH4IzKWAjo4VQ2Kuv14J005nn163gi"
-);
+const stripe = require("stripe")(process.env.stripe_secret);
 
 exports.webhook = async (req, res) => {
-	const endpointSecret =
-		"whsec_c32c7099db3d273202548d5e999a9123d49ac2a88d523fac473a7373734fa5b3";
+	const endpointSecret = process.env.endpoint_secret;
 	const sig = req.headers["stripe-signature"];
 
 	let event;
@@ -16,7 +13,6 @@ exports.webhook = async (req, res) => {
 		console.error(`Webhook Error: ${err.message}`);
 		return res.status(400).send(`Webhook Error: ${err.message}`);
 	}
-	console.log(event);
 	// Handle the event
 	switch (event.type) {
 		case "payment_intent.succeeded":
@@ -33,7 +29,8 @@ exports.webhook = async (req, res) => {
 };
 
 exports.createPaymentIntent = async (req, res) => {
-	const { amount, product, payment_id } = req.body;
+	var { amount, product, payment_id } = req.body;
+	amount = parseInt(amount * 100);
 	const user_id = req.id;
 	const paymentIntent = await stripe.paymentIntents.create({
 		amount,

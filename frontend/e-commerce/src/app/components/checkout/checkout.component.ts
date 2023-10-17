@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -11,13 +11,21 @@ import {
 import { StripeElementsOptions, PaymentIntent } from '@stripe/stripe-js';
 import { DataService } from 'src/app/services/data/data.service';
 import { CommonModule } from '@angular/common';
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-checkout',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, NgxStripeModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    NgxStripeModule,
+    InputTextModule,
+    ButtonModule,
+  ],
   templateUrl: './checkout.component.html',
-  styles: [],
+  styleUrls: ['./checkout.component.css'],
   providers: [HttpClient],
 })
 export class CheckoutComponent implements OnInit {
@@ -26,10 +34,13 @@ export class CheckoutComponent implements OnInit {
   );
   @ViewChild(StripePaymentElementComponent)
   paymentElement!: StripePaymentElementComponent;
+  @Input() amount = 0;
+  @Input() products: string[] = [];
+  @Input() id = '';
 
   paymentElementForm = this.fb.group({
-    name: ['John doe', [Validators.required]],
-    email: ['support@ngx-stripe.dev', [Validators.required]],
+    name: ['', [Validators.required]],
+    email: ['', [Validators.required]],
     address: [''],
     zipcode: [''],
     city: [''],
@@ -49,12 +60,12 @@ export class CheckoutComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.createPaymentIntent(
-      this.paymentElementForm.get('amount')!.value!
-    ).subscribe((pi) => {
-      console.log(pi);
-      this.elementsOptions.clientSecret = pi.client_secret!;
-    });
+    this.createPaymentIntent(this.amount, this.products, this.id).subscribe(
+      (pi) => {
+        console.log(pi);
+        this.elementsOptions.clientSecret = pi.client_secret!;
+      }
+    );
   }
 
   pay() {
@@ -98,11 +109,11 @@ export class CheckoutComponent implements OnInit {
     }
   }
 
-  private createPaymentIntent(amount: number): Observable<PaymentIntent> {
-    return this.dataService.createPaymentIntent(
-      amount,
-      'product',
-      'pm_card_visa'
-    );
+  private createPaymentIntent(
+    amount: number,
+    product: Array<String>,
+    id: String
+  ): Observable<PaymentIntent> {
+    return this.dataService.createPaymentIntent(amount, product, id);
   }
 }

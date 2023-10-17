@@ -1,4 +1,4 @@
-<p-table #dt [value]="products" styleClass="p-datatable-sm" [paginator]="true" [rows]="5"
+<p-table #dt [value]="products" *ngIf="!checkout" styleClass="p-datatable-sm" [paginator]="true" [rows]="5"
   [showCurrentPageReport]="true">
   <ng-template pTemplate="body" let-product>
     <tr>
@@ -29,7 +29,10 @@
   <ng-template pTemplate="summary">
     <div style="display: flex;align-items: center;justify-content: flex-end;">Cart Total : {{cartSum | currency:'INR'}}
       <p-button [ngStyle]="{'margin-inline':'10px'}" styleClass="p-button-sm p-button-raised p-button-success
-      p-button " label="Buy"></p-button>
+      p-button " label="Buy" (onClick)="checkout=true"></p-button>
     </div>
   </ng-template>
 </p-table>
+<p-button icon="pi pi-arrow-circle-left" styleClass="p-button-sm p-button-help p-button-text
+p-button " *ngIf="checkout" label="back" (onClick)="checkout=false"></p-button>
+<app-checkout [amount]="cartSum" [products]="['soap']" id="1" *ngIf="checkout"></app-checkout>

@@ -1,23 +1,24 @@
-<div [formGroup]="paymentElementForm">
+<div [formGroup]="paymentElementForm" style="margin: 10px;display: flex;flex-direction: column;">
 
-  <input placeholder="name" formControlName="name" />
-
-
-  <input placeholder="Email" type="email" formControlName="email" />
+  <input class="form-control p-inputtext-sm" pInputText placeholder="name" formControlName="name" />
 
 
-  <input placeholder="Address" formControlName="address" />
+  <input class="form-control p-inputtext-sm" pInputText placeholder="Email" type="email" formControlName="email" />
 
 
-  <input placeholder="ZIP Code" formControlName="zipcode" />
+  <input class="form-control p-inputtext-sm" pInputText placeholder="Address" formControlName="address" />
 
 
-  <input placeholder="city" formControlName="city" />
+  <input class="form-control p-inputtext-sm" pInputText placeholder="ZIP Code" formControlName="zipcode" />
 
-  {{elementsOptions.clientSecret}}
-  <ng-container *ngIf="elementsOptions?.clientSecret ">
-    <ngx-stripe-payment [stripe]="stripe" [clientSecret]="elementsOptions.clientSecret!">
-    </ngx-stripe-payment>
-  </ng-container>
-  <button (click)="pay()">PAY</button>
+
+  <input class="form-control p-inputtext-sm" pInputText placeholder="city" formControlName="city" />
+
+  <ngx-stripe-payment *ngIf="elementsOptions?.clientSecret " [stripe]="stripe" style="margin-block: 10px;"
+    [clientSecret]="elementsOptions.clientSecret!">
+  </ngx-stripe-payment>
+
+  <p-button [ngStyle]="{'width':'100%'}" [disabled]="paymentElementForm.invalid" [label]="'Pay '+(amount | number )"
+    type="submit" icon="pi pi-money-bill" (onClick)="pay()">
+  </p-button>
 </div>
