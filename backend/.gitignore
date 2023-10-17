@@ -1,7 +1,7 @@
 # Node.js
 node_modules/
 
-.prod.env
+.env.prod
 # Logs
 logs
 *.log
