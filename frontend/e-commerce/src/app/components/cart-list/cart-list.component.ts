@@ -23,7 +23,7 @@ export class CartListComponent implements OnInit {
   constructor(private dataService: DataService) {}
   checkout = false;
   loading = true;
-  products: any;
+  products: any = [];
   product_ref: any = [];
   cartSum = 0;
   ngOnInit(): void {

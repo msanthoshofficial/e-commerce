@@ -16,11 +16,15 @@
 </header>
 <p-menu #menu [model]="items" [popup]="true"></p-menu>
 
-<p-dialog [modal]="true" [draggable]="false" header="My Cart" [resizable]="false" [maximizable]="true"
-  [(visible)]="show" [style]="{width: '40vw'}">
-  <app-cart-list></app-cart-list>
-</p-dialog>
-<p-dialog [modal]="true" [draggable]="false" header="My Orders" [resizable]="false" [maximizable]="true"
-  [(visible)]="showorders" [style]="{width: '40vw'}">
-  <app-orders></app-orders>
-</p-dialog>
+<ng-container *ngIf="show">
+  <p-dialog [modal]="true" [draggable]="false" header="My Cart" [resizable]="false" [maximizable]="true"
+    [(visible)]="show" [style]="{width: '40vw'}">
+    <app-cart-list></app-cart-list>
+  </p-dialog>
+</ng-container>
+<ng-container *ngIf="showorders">
+  <p-dialog [modal]="true" [draggable]="false" header="My Orders" [resizable]="false" [maximizable]="true"
+    [(visible)]="showorders" [style]="{width: '40vw'}">
+    <app-orders></app-orders>
+  </p-dialog>
+</ng-container>
