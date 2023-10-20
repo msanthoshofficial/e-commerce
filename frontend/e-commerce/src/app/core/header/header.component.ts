@@ -38,6 +38,9 @@ export class HeaderComponent implements OnInit {
   constructor(private router: Router, private dataService: DataService) {}
   ngOnInit() {
     this.user = JSON.parse(sessionStorage.getItem('user')!);
+    if (!this.user) {
+      this.router.navigate(['/login']);
+    }
     this.profilePicture = `data:${this.user.content_type};base64,${this.user.profile_picture}`;
     this.items = [
       {
@@ -96,6 +99,7 @@ export class HeaderComponent implements OnInit {
     ];
     this.getCartCount();
     this.dataService.cartCountUpdated.subscribe((res: any) => {
+      console.log(res);
       this.getCartCount();
     });
   }
@@ -105,6 +109,7 @@ export class HeaderComponent implements OnInit {
         this.cart_items_count = res.itemCount.toString();
       },
       (err) => {
+        console.log(err);
         this.cart_items_count = '0';
       }
     );

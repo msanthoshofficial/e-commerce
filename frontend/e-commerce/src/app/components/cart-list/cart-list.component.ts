@@ -55,17 +55,17 @@ export class CartListComponent implements OnInit {
   }
   increment(product_id: String) {
     this.dataService.addToCart(product_id).subscribe((res: any) => {
-      this.getCartItems();
+      this.dataService.emitCartCountUpdated();
     });
   }
   decrement(product_id: String) {
     this.dataService.reduceQuantity(product_id).subscribe((res: any) => {
-      this.getCartItems();
+      this.dataService.emitCartCountUpdated();
     });
   }
   deleteFromCart(product_id: String) {
     this.dataService.deleteFromCart(product_id).subscribe((res: any) => {
-      this.getCartItems();
+      this.dataService.emitCartCountUpdated();
     });
   }
 }
