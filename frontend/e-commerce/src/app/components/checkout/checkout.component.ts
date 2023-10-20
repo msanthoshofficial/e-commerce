@@ -1,7 +1,13 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  Input,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 
 import {
   StripePaymentElementComponent,
@@ -43,6 +49,7 @@ export class CheckoutComponent implements OnInit {
   @Input() amount = 0;
   @Input() products: string[] = [];
   @Input() id = '';
+  @Output() checkedout = new EventEmitter<boolean>();
 
   paymentElementForm = this.fb.group({
     name: ['', [Validators.required]],
@@ -76,6 +83,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   pay() {
+    this.loaded = false;
     if (this.paymentElementForm.valid) {
       this.paying = true;
       this.stripe
@@ -99,7 +107,7 @@ export class CheckoutComponent implements OnInit {
         })
         .subscribe((result) => {
           this.paying = false;
-          console.log('Result', result);
+          this.loaded = true;
           if (result.error) {
             this.messageService.add({
               severity: 'error',
@@ -108,18 +116,22 @@ export class CheckoutComponent implements OnInit {
             });
           } else {
             if (result.paymentIntent.status === 'succeeded') {
-              this.dataService.emitCartCountUpdated();
-              this.messageService.add({
-                severity: 'success',
-                summary: 'Payment Successful',
-                detail: 'Order Placed Successfully',
-              });
+              setTimeout(() => {
+                this.dataService.emitCartCountUpdated();
+                this.loaded = true;
+                this.messageService.add({
+                  severity: 'success',
+                  summary: 'Payment Successful',
+                  detail: 'Order Placed Successfully',
+                });
+                this.checkedout.emit(true);
+              }, 1000);
             }
           }
           this.paymentElementForm.reset();
         });
     } else {
-      console.log(this.paymentElementForm);
+      this.loaded = true;
     }
   }
 

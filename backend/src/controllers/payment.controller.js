@@ -24,9 +24,9 @@ exports.webhook = async (req, res) => {
 				{ _id: orderId },
 				{ $set: { payment_status: "succeeded" } }
 			);
+			const user_id = paymentIntent.metadata.user_id;
+			await deleteCart(user_id);
 
-			const deleted = await deleteCart(req, res);
-			// Handle the payment success event
 			break;
 	}
 
@@ -48,7 +48,8 @@ exports.createPaymentIntent = async (req, res) => {
 			currency: "inr",
 			payment_method_types: ["card"],
 			metadata: {
-				payment_id: order._id.toString(), // Convert ObjectId to string
+				payment_id: order._id.toString(),
+				user_id: user_id.toString(), // Convert ObjectId to string
 			},
 		});
 

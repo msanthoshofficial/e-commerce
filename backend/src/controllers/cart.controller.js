@@ -180,10 +180,8 @@ exports.reduceCartItemQuantity = async (req, res) => {
 	}
 };
 
-exports.deleteCart = async (req, res) => {
+exports.deleteCart = async (userId) => {
 	try {
-		const userId = req.id;
-
 		// Find and delete the user's cart
 		const result = await cartModel.deleteOne({ user_id: userId });
 		if (result.deletedCount === 1) {
