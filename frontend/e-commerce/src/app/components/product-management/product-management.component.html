@@ -21,13 +21,10 @@
 
   <p-table #dt [value]="products" [rows]="6" [paginator]="true" styleClass="p-datatable-sm"
     [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']"
-    [tableStyle]="{ 'min-width': '75rem' }" [rowHover]="true" dataKey="id">
+    [tableStyle]="{ 'min-width': '70rem' }" [breakpoint]="'960px'" [rowHover]="true" dataKey="id">
 
     <ng-template pTemplate="header">
       <tr>
-        <th style="width: 4rem">
-          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-        </th>
         <th pSortableColumn="name" style="min-width:15rem">Name <p-sortIcon field="name"></p-sortIcon>
         </th>
         <th>Image</th>
@@ -42,9 +39,6 @@
     </ng-template>
     <ng-template pTemplate="body" let-product>
       <tr>
-        <td>
-          <p-tableCheckbox [value]="product"></p-tableCheckbox>
-        </td>
         <td>{{ product.name }}</td>
         <td><img src="{{ 'data:'+product.content_type+';base64,'+product.image }}" [alt]="product.name" width="50"
             class="shadow-4" /></td>

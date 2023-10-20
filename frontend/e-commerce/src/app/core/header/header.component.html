@@ -4,11 +4,13 @@
     font-size: 1.6rem;letter-spacing: 2px;"><span><i style="    font-size: 1.5rem;
     color: #00e190;" class="pi pi-shopping-bag"></i></span> Shopping Platform</h2>
     <div class="right-section">
+      <i class="pi pi-box" pBadge [value]="cart_items_count" (click)="showorders=true;"
+        style="color: #51f2b8;font-size: 2rem;margin-inline: 1.5rem;cursor: pointer;"></i>
       <i class="pi pi-shopping-cart" pBadge [value]="cart_items_count" (click)="show=true;"
-        style="color: #51f2b8;font-size: 2rem;margin-inline: 2rem;cursor: pointer;"></i>
+        style="color: #51f2b8;font-size: 2rem;margin-inline: 1.5rem;cursor: pointer;"></i>
 
       <p-avatar [image]="profilePicture" (click)="menu.toggle($event)"
-        [ngStyle]="{'cursor': 'pointer','display':'flex'}" size="large" shape="circle"></p-avatar>
+        [ngStyle]="{'cursor': 'pointer','display':'flex','margin-left':'1rem'}" size="large" shape="circle"></p-avatar>
     </div>
   </div>
 </header>
@@ -17,4 +19,8 @@
 <p-dialog [modal]="true" [draggable]="false" header="My Cart" [resizable]="false" [maximizable]="true"
   [(visible)]="show" [style]="{width: '40vw'}">
   <app-cart-list></app-cart-list>
+</p-dialog>
+<p-dialog [modal]="true" [draggable]="false" header="My Orders" [resizable]="false" [maximizable]="true"
+  [(visible)]="showorders" [style]="{width: '40vw'}">
+  <app-orders></app-orders>
 </p-dialog>
