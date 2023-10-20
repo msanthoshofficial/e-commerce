@@ -35,4 +35,4 @@
 </p-table>
 <p-button icon="pi pi-arrow-circle-left" styleClass="p-button-sm p-button-help p-button-text
 p-button " *ngIf="checkout" label="back" (onClick)="checkout=false"></p-button>
-<app-checkout [amount]="cartSum" [products]="['soap']" id="1" *ngIf="checkout"></app-checkout>
+<app-checkout [amount]="cartSum" [products]="product_ref" id="1" *ngIf="checkout"></app-checkout>

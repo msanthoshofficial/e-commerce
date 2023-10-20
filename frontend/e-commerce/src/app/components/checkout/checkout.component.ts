@@ -67,7 +67,11 @@ export class CheckoutComponent implements OnInit {
 
   ngOnInit() {
     this.createPaymentIntent(this.amount, this.products, this.id).subscribe(
-      (pi) => {
+      (res) => {
+        const { pi, cart_deleted } = res;
+        if (cart_deleted) {
+          this.dataService.emitCartCountUpdated();
+        }
         this.elementsOptions.clientSecret = pi.client_secret!;
         this.loaded = true;
       }
@@ -125,7 +129,7 @@ export class CheckoutComponent implements OnInit {
     amount: number,
     product: Array<String>,
     id: String
-  ): Observable<PaymentIntent> {
+  ) {
     return this.dataService.createPaymentIntent(amount, product, id);
   }
 }

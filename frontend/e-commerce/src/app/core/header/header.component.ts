@@ -97,8 +97,13 @@ export class HeaderComponent implements OnInit {
     });
   }
   getCartCount() {
-    this.dataService.getCartCount().subscribe((res: any) => {
-      this.cart_items_count = res.itemCount.toString();
-    });
+    this.dataService.getCartCount().subscribe(
+      (res: any) => {
+        this.cart_items_count = res.itemCount.toString();
+      },
+      (err) => {
+        this.cart_items_count = '0';
+      }
+    );
   }
 }

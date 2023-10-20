@@ -1,4 +1,5 @@
 const Order = require("../models/order.model");
+const { deleteCart } = require("./cart.controller");
 const stripe = require("stripe")(process.env.stripe_secret);
 
 exports.webhook = async (req, res) => {
@@ -13,15 +14,18 @@ exports.webhook = async (req, res) => {
 		console.error(`Webhook Error: ${err.message}`);
 		return res.status(400).send(`Webhook Error: ${err.message}`);
 	}
-	// Handle the event
 	switch (event.type) {
-		case "payment_intent.succeeded":
+		case "charge.succeeded":
 			const paymentIntent = event.data.object;
+
+			// Update the order in MongoDB with payment status
+			const orderId = paymentIntent.metadata.payment_id;
+			await Order.findOneAndUpdate(
+				{ _id: orderId },
+				{ $set: { payment_status: "succeeded" } }
+			);
 			// Handle the payment success event
 			break;
-		// Handle other event types if needed
-		default:
-			console.log(`Unhandled event type ${event.type}`);
 	}
 
 	// Return a response to acknowledge receipt of the event
@@ -29,25 +33,33 @@ exports.webhook = async (req, res) => {
 };
 
 exports.createPaymentIntent = async (req, res) => {
-	var { amount, product, payment_id } = req.body;
-	amount = parseInt(amount * 100);
-	const user_id = req.id;
-	const paymentIntent = await stripe.paymentIntents.create({
-		amount,
-		currency: "inr",
-		payment_method_types: ["card"],
-	});
+	try {
+		const { amount, products } = req.body;
+		const user_id = req.id;
 
-	async (err, paymentIntent) => {
-		if (err) {
-			return res.status(500).json(err.message);
-		} else {
-			// Save the purchase to MongoDB
-			const order = new Order({ user_id, payment_id, amount, product });
-			await order.save();
+		// Create a new order without specifying payment_id, MongoDB will generate _id
+		const order = new Order({ user_id, amount, products });
+		await order.save();
 
-			return res.status(201).json(paymentIntent);
-		}
-	};
-	return res.json(paymentIntent);
+		const paymentIntent = await stripe.paymentIntents.create({
+			amount: parseInt(amount * 100),
+			currency: "inr",
+			payment_method_types: ["card"],
+			metadata: {
+				payment_id: order._id.toString(), // Convert ObjectId to string
+			},
+		});
+
+		// Update the order with the generated payment_id
+		order.payment_id = paymentIntent.metadata.payment_id;
+		await order.save();
+		const deleted = await deleteCart(req, res);
+
+		return res
+			.status(201)
+			.json({ pi: paymentIntent, cart_deleted: deleted });
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json(err.message);
+	}
 };

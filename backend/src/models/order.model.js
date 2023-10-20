@@ -2,22 +2,29 @@ const mongoose = require("mongoose");
 
 const orderSchema = new mongoose.Schema(
 	{
-		payment_id: {
-			type: String,
-			required: true,
-			unique: true,
-		},
 		user_id: {
-			type: String,
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "users",
 			required: true,
 		},
 		amount: {
 			type: Number,
 			required: true,
 		},
-		product: {
+		products: [
+			{
+				product_id: {
+					type: mongoose.Schema.Types.ObjectId,
+					ref: "products",
+					required: true,
+				},
+				quantity: { type: Number, default: 1 },
+			},
+		],
+		payment_status: {
 			type: String,
-			required: true,
+			required: false,
+			default: "pending",
 		},
 		// Add other fields as needed
 	},

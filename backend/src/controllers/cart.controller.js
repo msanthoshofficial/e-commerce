@@ -24,15 +24,6 @@ exports.getCartItemCount = async (req, res) => {
 		return res.status(500).json({ message: "Can't get cart item count" });
 	}
 };
-exports.getCartByUserId = async (req, res) => {
-	try {
-		const userId = req.id;
-		const userCart = await cartModel.findOne({ user_id: userId });
-		return res.status(200).json(userCart.products);
-	} catch (err) {
-		return res.status(500).json({ message: "Can't get cart" });
-	}
-};
 
 exports.addToCart = async (req, res) => {
 	try {
@@ -186,5 +177,22 @@ exports.reduceCartItemQuantity = async (req, res) => {
 		return res
 			.status(500)
 			.json({ message: "Can't reduce cart item quantity" });
+	}
+};
+
+exports.deleteCart = async (req, res) => {
+	try {
+		const userId = req.id;
+
+		// Find and delete the user's cart
+		const result = await cartModel.deleteOne({ user_id: userId });
+		if (result.deletedCount === 1) {
+			return true;
+		}
+		return false;
+	} catch (err) {
+		console.log(err);
+
+		return false;
 	}
 };

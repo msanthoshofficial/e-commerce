@@ -79,12 +79,12 @@ export class DataService {
 
   createPaymentIntent(
     amount: number,
-    product: Array<String>,
+    products: Array<String>,
     paymentMethodId: String
   ) {
     return this.http.post<any>(
       `${this.api_url}payment/create-payment-intent`,
-      { amount, product, paymentMethodId },
+      { amount, products, paymentMethodId },
       { withCredentials: true }
     );
   }

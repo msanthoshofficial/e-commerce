@@ -24,6 +24,7 @@ export class CartListComponent implements OnInit {
   checkout = false;
   loading = true;
   products: any;
+  product_ref: any = [];
   cartSum = 0;
   ngOnInit(): void {
     this.getCartItems();
@@ -32,14 +33,25 @@ export class CartListComponent implements OnInit {
     });
   }
   getCartItems() {
-    this.dataService.getCartProducts().subscribe((data: any) => {
-      this.products = data.cartItems;
-      this.cartSum = 0;
-      this.products.forEach((item: any) => {
-        this.cartSum += item.productDetails.price * item.quantity;
-      });
-      this.loading = false;
-    });
+    this.dataService.getCartProducts().subscribe(
+      (data: any) => {
+        this.products = data.cartItems;
+        this.cartSum = 0;
+        this.products.forEach((item: any) => {
+          this.product_ref.push({
+            product_id: item.product_id,
+            quantity: item.quantity,
+          });
+          this.cartSum += item.productDetails.price * item.quantity;
+        });
+        this.loading = false;
+      },
+      (err) => {
+        this.products = [];
+        this.cartSum = 0;
+        this.product_ref = [];
+      }
+    );
   }
   increment(product_id: String) {
     this.dataService.addToCart(product_id).subscribe((res: any) => {
