@@ -68,10 +68,7 @@ export class CheckoutComponent implements OnInit {
   ngOnInit() {
     this.createPaymentIntent(this.amount, this.products, this.id).subscribe(
       (res) => {
-        const { pi, cart_deleted } = res;
-        if (cart_deleted) {
-          this.dataService.emitCartCountUpdated();
-        }
+        const { pi } = res;
         this.elementsOptions.clientSecret = pi.client_secret!;
         this.loaded = true;
       }
@@ -111,6 +108,7 @@ export class CheckoutComponent implements OnInit {
             });
           } else {
             if (result.paymentIntent.status === 'succeeded') {
+              this.dataService.emitCartCountUpdated();
               this.messageService.add({
                 severity: 'success',
                 summary: 'Payment Successful',

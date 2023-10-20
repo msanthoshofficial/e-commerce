@@ -26,6 +26,11 @@ const orderSchema = new mongoose.Schema(
 			required: false,
 			default: "pending",
 		},
+		order_status: {
+			type: String,
+			required: false,
+			default: "pending",
+		},
 		// Add other fields as needed
 	},
 	{ collection: "orders", timestamps: true }

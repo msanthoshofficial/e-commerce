@@ -24,6 +24,8 @@ exports.webhook = async (req, res) => {
 				{ _id: orderId },
 				{ $set: { payment_status: "succeeded" } }
 			);
+
+			const deleted = await deleteCart(req, res);
 			// Handle the payment success event
 			break;
 	}
@@ -53,11 +55,8 @@ exports.createPaymentIntent = async (req, res) => {
 		// Update the order with the generated payment_id
 		order.payment_id = paymentIntent.metadata.payment_id;
 		await order.save();
-		const deleted = await deleteCart(req, res);
 
-		return res
-			.status(201)
-			.json({ pi: paymentIntent, cart_deleted: deleted });
+		return res.status(201).json({ pi: paymentIntent });
 	} catch (err) {
 		console.log(err);
 		return res.status(500).json(err.message);
