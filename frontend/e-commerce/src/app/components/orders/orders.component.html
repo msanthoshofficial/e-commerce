@@ -1,1 +1,8 @@
-<p>orders works!</p>
+<p-table #dt [value]="orders" styleClass="p-datatable-sm" [paginator]="true" [rows]="5" [showCurrentPageReport]="true">
+  <ng-template pTemplate="body" let-order>
+    <tr>
+      <td>{{order.id}}</td>
+      <td>{{order.order_status}}</td>
+    </tr>
+  </ng-template>
+</p-table>

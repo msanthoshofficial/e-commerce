@@ -40,6 +40,7 @@ export class CartListComponent implements OnInit {
         this.products.forEach((item: any) => {
           this.product_ref.push({
             product_id: item.product_id,
+            seller_id: item.productDetails.seller_id,
             quantity: item.quantity,
           });
           this.cartSum += item.productDetails.price * item.quantity;

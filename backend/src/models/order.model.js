@@ -18,15 +18,19 @@ const orderSchema = new mongoose.Schema(
 					ref: "Product",
 					required: true,
 				},
+				seller_id: {
+					type: mongoose.Schema.Types.ObjectId,
+					ref: "Product",
+					required: true,
+				},
 				quantity: { type: Number, default: 1 },
+				order_status: {
+					type: String,
+					default: "pending",
+				},
 			},
 		],
 		payment_status: {
-			type: String,
-			required: false,
-			default: "pending",
-		},
-		order_status: {
 			type: String,
 			required: false,
 			default: "pending",
