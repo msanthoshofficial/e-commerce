@@ -6,6 +6,6 @@ const auth = require("../middlewares/auth");
 
 router.get("/", auth.jwt_verify, orderController.getMyOrders);
 router.get("/seller", auth.jwt_verify, orderController.getSellerOrders);
-router.post("/:status", auth.jwt_verify, orderController.updateOrderStatus);
+router.post("/:order_id", auth.jwt_verify, orderController.updateOrderStatus);
 
 module.exports = router;
