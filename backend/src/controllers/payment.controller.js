@@ -1,4 +1,5 @@
 const Order = require("../models/order.model");
+const Payment = require("../models/payment.model");
 const { deleteCart } = require("./cart.controller");
 const stripe = require("stripe")(process.env.stripe_secret);
 
@@ -18,13 +19,23 @@ exports.webhook = async (req, res) => {
 		case "charge.succeeded":
 			const paymentIntent = event.data.object;
 
-			// Update the order in MongoDB with payment status
-			const orderId = paymentIntent.metadata.payment_id;
-			await Order.findOneAndUpdate(
-				{ _id: orderId },
+			// Update the order in MongoDB
+			const payment_id = paymentIntent.metadata.payment_id;
+			const user_id = paymentIntent.metadata.user_id;
+			const products = JSON.parse(paymentIntent.metadata.products);
+			//Update payment status in Payment Collection
+			const payment = await Payment.findOneAndUpdate(
+				{ _id: payment_id },
 				{ $set: { payment_status: "succeeded" } }
 			);
-			const user_id = paymentIntent.metadata.user_id;
+			products.forEach(async (product) => {
+				const order = new Order({
+					user_id,
+					payment_id,
+					product,
+				});
+				await order.save();
+			});
 			await deleteCart(user_id);
 
 			break;
@@ -40,23 +51,26 @@ exports.createPaymentIntent = async (req, res) => {
 		const user_id = req.id;
 
 		// Create a new order without specifying payment_id, MongoDB will generate _id
-		const order = new Order({ user_id, amount, products });
-		await order.save();
-
+		//const order = new Order({ user_id, amount, products });
+		//await order.save();
+		const payment = new Payment({ user_id, amount });
+		await payment.save();
+		const payment_id = payment._id.toString();
 		const paymentIntent = await stripe.paymentIntents.create({
 			amount: parseInt(amount * 100),
 			currency: "inr",
 			payment_method_types: ["card"],
 			metadata: {
-				payment_id: order._id.toString(),
-				user_id: user_id.toString(), // Convert ObjectId to string
+				payment_id: payment_id,
+				user_id: user_id.toString(),
+				products: JSON.stringify(products), // Convert ObjectId to string
 			},
 		});
-
-		// Update the order with the generated payment_id
-		order.payment_id = paymentIntent.metadata.payment_id;
-		await order.save();
-
+		const stripe_id = paymentIntent.id;
+		await Payment.findOneAndUpdate(
+			{ _id: payment_id },
+			{ $set: { stripe_id: stripe_id } }
+		);
 		return res.status(201).json({ pi: paymentIntent });
 	} catch (err) {
 		console.log(err);

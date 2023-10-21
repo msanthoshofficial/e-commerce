@@ -38,3 +38,8 @@ p-button " *ngIf="checkout" label="back" (onClick)="checkout=false"></p-button>
 <ng-container *ngIf="checkout">
   <app-checkout [amount]="cartSum" (checkedout)="checkout=false" [products]="product_ref" id="1"></app-checkout>
 </ng-container>
+<div *ngIf="!checkout && !products.length" style="display: flex;align-items: center;     flex-direction: column;   justify-content: center;
+margin-block: 10vh;">
+  <i class="pi pi-shopping-cart" style="color: #bdbdbd;font-size: 4rem;margin-inline: 1.5rem;cursor: pointer;"></i>
+  <h4>Add Products To Show</h4>
+</div>
