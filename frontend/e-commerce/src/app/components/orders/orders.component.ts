@@ -47,12 +47,15 @@ export class OrdersComponent implements OnInit {
   }
   getOrders() {
     this.dataService.getMyOrders().subscribe((data: any) => {
-      console.log(data);
       this.orders = data;
     });
   }
   track(order: any) {
     this.selectedOrder = order;
+    const index = this.events.findIndex(
+      (event) => event.status === this.selectedOrder.order_status
+    );
+    this.events = index !== -1 ? this.events.slice(0, index + 1) : [];
     this.tracking = true;
   }
 }
