@@ -42,12 +42,13 @@ exports.getSellerOrders = async (req, res) => {
 
 exports.updateOrderStatus = async (req, res) => {
 	try {
-		const order_id = req.params.id;
+		const order_id = req.params.order_id;
 		const { status } = req.body;
 		const order = await Order.findOneAndUpdate(
 			{ _id: order_id },
-			{ status: status }
+			{ order_status: status }
 		);
+		console.log(order);
 		return res.status(201).json(order);
 	} catch (err) {
 		console.log(err);

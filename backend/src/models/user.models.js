@@ -70,6 +70,8 @@ const userProfileSchema = new mongoose.Schema(
 		role: {
 			type: String,
 			required: true,
+			default: "customer",
+			enum: ["customer", "seller", "admin"],
 		},
 	},
 	{ collection: "users" }

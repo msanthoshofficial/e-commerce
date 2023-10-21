@@ -1,3 +1,11 @@
+<div style="margin: 4vh;">
+  <p-tabMenu [model]="items" [activeItem]="activeItem" (activeItemChange)="switchTab($event)"></p-tabMenu>
+</div>
 <div style="display: flex;align-items: center;justify-content: center;">
-  <app-product-management></app-product-management>
+  <ng-container *ngIf="activeItem.label=='Products'">
+    <app-product-management></app-product-management>
+  </ng-container>
+  <ng-container *ngIf="activeItem.label=='Orders'">
+    <app-order-management></app-order-management>
+  </ng-container>
 </div>
