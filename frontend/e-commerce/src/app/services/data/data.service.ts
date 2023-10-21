@@ -88,4 +88,24 @@ export class DataService {
       { withCredentials: true }
     );
   }
+
+  getMyOrders() {
+    return this.http.get(this.api_url + 'order', {
+      withCredentials: true,
+    });
+  }
+  getSellerOrders() {
+    return this.http.get(this.api_url + 'order', {
+      withCredentials: true,
+    });
+  }
+  updateOrderStatus(orderId: String, status: String) {
+    return this.http.post(
+      this.api_url + 'order/' + orderId,
+      { status },
+      {
+        withCredentials: true,
+      }
+    );
+  }
 }

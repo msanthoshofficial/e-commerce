@@ -1,8 +1,39 @@
-<p-table #dt [value]="orders" styleClass="p-datatable-sm" [paginator]="true" [rows]="5" [showCurrentPageReport]="true">
+<p-table *ngIf="!tracking && orders" #dt [value]="orders" styleClass="p-datatable-sm" [paginator]="true" [rows]="5"
+  [showCurrentPageReport]="true">
   <ng-template pTemplate="body" let-order>
     <tr>
-      <td>{{order.id}}</td>
-      <td>{{order.order_status}}</td>
+      <td><img src="{{ 'data:'+order.product.product_id.content_type+';base64,'+order.product.product_id.image }}"
+          [alt]="order.product.product_id.name" width="100" /></td>
+      <td>{{order.product.product_id.name}}</td>
+      <td>
+        <p-tag severity="info" [value]="order.order_status"></p-tag>
+      </td>
+      <td>
+        <p-button icon="pi pi-map-marker" styleClass="p-button-sm p-button-help p-button-text
+p-button " label="Track Order" (onClick)="track(order)"></p-button>
+      </td>
     </tr>
   </ng-template>
 </p-table>
+<section *ngIf="tracking && orders" style="margin-bottom: 5vh;">
+  <p-button icon="pi  pi-arrow-circle-left" styleClass="p-button-sm p-button-help p-button-text
+p-button " label="Back" (onClick)="selectedOrder=undefined;tracking=false"></p-button>
+  <h3 style="display: flex;align-items: center;justify-content: center;">{{selectedOrder.product.product_id.name}}</h3>
+  <p-timeline [value]="events" align="alternate">
+    <ng-template pTemplate="marker" let-event>
+      <span style="border-radius: 50px;
+      height: 2rem;
+      width: 2rem;
+      color: white;
+      align-items: center;
+      display: flex;
+      justify-content: center;" [style.backgroundColor]="event.color">
+        <i [ngClass]="event.icon"></i>
+      </span>
+    </ng-template>
+    <ng-template pTemplate="content" let-event>
+      {{event.status}}
+    </ng-template>
+  </p-timeline>
+
+</section>
