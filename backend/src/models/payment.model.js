@@ -19,7 +19,6 @@ const paymentSchema = new mongoose.Schema(
 		stripe_id: {
 			type: String,
 			required: false,
-			default: "pending",
 		},
 		// Add other fields as needed
 	},
