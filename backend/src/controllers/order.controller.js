@@ -1,6 +1,17 @@
 const Order = require("../models/order.model");
 const { Product } = require("../models/product.models");
 
+exports.getMyOrderCount = async (req, res) => {
+	try {
+		const user_id = req.id;
+		const count = await Order.countDocuments({ user_id: user_id });
+		return res.status(201).json(count);
+	} catch (err) {
+		console.log(err);
+		return res.status(500).send(err);
+	}
+};
+
 exports.getMyOrders = async (req, res) => {
 	try {
 		const user_id = req.id;

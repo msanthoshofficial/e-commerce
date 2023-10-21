@@ -89,6 +89,12 @@ export class DataService {
     );
   }
 
+  getOrdersCount() {
+    return this.http.get(this.api_url + 'order/count', {
+      withCredentials: true,
+    });
+  }
+
   getMyOrders() {
     return this.http.get(this.api_url + 'order', {
       withCredentials: true,

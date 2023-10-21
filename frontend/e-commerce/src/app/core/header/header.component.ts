@@ -32,6 +32,7 @@ export class HeaderComponent implements OnInit {
   user: any = {};
   items: any;
   cart_items_count = '0';
+  order_count = '0';
   products = [];
   show = false;
   showorders = false;
@@ -97,9 +98,10 @@ export class HeaderComponent implements OnInit {
         ],
       },
     ];
+    this.getOrdersCount();
     this.getCartCount();
     this.dataService.cartCountUpdated.subscribe((res: any) => {
-      console.log(res);
+      this.getOrdersCount();
       this.getCartCount();
     });
   }
@@ -111,6 +113,17 @@ export class HeaderComponent implements OnInit {
       (err) => {
         console.log(err);
         this.cart_items_count = '0';
+      }
+    );
+  }
+  getOrdersCount() {
+    this.dataService.getOrdersCount().subscribe(
+      (res: any) => {
+        this.order_count = res.toString();
+      },
+      (err) => {
+        console.log(err);
+        this.order_count = '0';
       }
     );
   }

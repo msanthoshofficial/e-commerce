@@ -18,6 +18,8 @@ p-button " label="Track Order" (onClick)="track(order)"></p-button>
 <section *ngIf="tracking && orders" style="margin-bottom: 5vh;">
   <p-button icon="pi  pi-arrow-circle-left" styleClass="p-button-sm p-button-help p-button-text
 p-button " label="Back" (onClick)="selectedOrder=undefined;tracking=false"></p-button>
+  <div style="    padding-inline: 1rem;
+  font-size: small;">order id: {{selectedOrder._id}}</div>
   <h3 style="display: flex;align-items: center;justify-content: center;">{{selectedOrder.product.product_id.name}}</h3>
   <p-timeline [value]="events" align="alternate">
     <ng-template pTemplate="marker" let-event>
@@ -37,3 +39,8 @@ p-button " label="Back" (onClick)="selectedOrder=undefined;tracking=false"></p-b
   </p-timeline>
 
 </section>
+<div *ngIf=" !orders.length" style="display: flex;align-items: center;     flex-direction: column;   justify-content: center;
+margin-block: 10vh;">
+  <i class="pi pi-shopping-bag" style="color: #bdbdbd;font-size: 4rem;margin-inline: 1.5rem;cursor: pointer;"></i>
+  <h4>Add Products To Show</h4>
+</div>
