@@ -32,6 +32,12 @@ const orderSchema = new mongoose.Schema(
 			default: "Processing",
 			enum: ["Processing", "Shipped", "Delivered"],
 		},
+		rating: {
+			type: Number,
+			required: false,
+			min: 0,
+			max: 5,
+		},
 		// Add other fields as needed
 	},
 	{ collection: "orders", timestamps: true }
