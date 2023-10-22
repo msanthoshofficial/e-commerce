@@ -40,10 +40,18 @@ exports.create_user = async (req, res) => {
 					.json({ error: "No profile image provided" });
 			}
 			const profile_picture = req.file.buffer.toString("base64");
-			//const profile_picture = req.file.buffer;
 			const content_type = req.file.mimetype;
 			var { email, password, phone, address, role } = req.body;
 			const username = email.split("@")[0];
+
+			// Check if the email is already in use
+			const existingUser = await UserProfile.findOne({ email });
+			if (existingUser) {
+				return res
+					.status(400)
+					.json({ error: "Email address is already in use" });
+			}
+
 			password = await bcrypt.hash(password, 10);
 			if (role != "customer" && role != "seller") {
 				throw new Error("Invalid Role");
@@ -65,7 +73,7 @@ exports.create_user = async (req, res) => {
 		});
 	} catch (err) {
 		console.log(err);
-		return res.status(500).json({ message: "Cant Create User" });
+		return res.status(500).json({ message: "Can't Create User" });
 	}
 };
 
