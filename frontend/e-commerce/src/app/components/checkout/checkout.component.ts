@@ -125,7 +125,7 @@ export class CheckoutComponent implements OnInit {
                   detail: 'Order Placed Successfully',
                 });
                 this.checkedout.emit(true);
-              }, 1000);
+              }, 3000);
             }
           }
           this.paymentElementForm.reset();

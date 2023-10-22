@@ -66,6 +66,7 @@ export class ProductManagementComponent implements OnInit {
   getProducts() {
     this.dataService.getMyProducts().subscribe((data: any) => {
       this.products = data;
+      sessionStorage.setItem('products', JSON.stringify(this.products));
     });
   }
 

@@ -22,12 +22,13 @@ exports.webhook = async (req, res) => {
 			// Update the order in MongoDB
 			const payment_id = paymentIntent.metadata.payment_id;
 			const user_id = paymentIntent.metadata.user_id;
-			const products = JSON.parse(paymentIntent.metadata.products);
 			//Update payment status in Payment Collection
 			const payment = await Payment.findOneAndUpdate(
 				{ _id: payment_id },
-				{ $set: { payment_status: "succeeded" } }
+				{ $set: { payment_status: "succeeded" } },
+				{ new: true }
 			);
+			const products = payment["products"];
 			products.forEach(async (product) => {
 				const order = new Order({
 					user_id,
@@ -62,14 +63,13 @@ exports.createPaymentIntent = async (req, res) => {
 			payment_method_types: ["card"],
 			metadata: {
 				payment_id: payment_id,
-				user_id: user_id.toString(),
-				products: JSON.stringify(products), // Convert ObjectId to string
+				user_id: user_id.toString(), // Convert ObjectId to string
 			},
 		});
 		const stripe_id = paymentIntent.id;
 		await Payment.findOneAndUpdate(
 			{ _id: payment_id },
-			{ $set: { stripe_id: stripe_id } }
+			{ $set: { stripe_id: stripe_id, products: products } }
 		);
 		return res.status(201).json({ pi: paymentIntent });
 	} catch (err) {

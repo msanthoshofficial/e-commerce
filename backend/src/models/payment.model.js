@@ -21,6 +21,21 @@ const paymentSchema = new mongoose.Schema(
 			type: String,
 			required: false,
 		},
+		products: [
+			{
+				product_id: {
+					type: mongoose.Schema.Types.ObjectId,
+					ref: "Product",
+					required: true,
+				},
+				seller_id: {
+					type: mongoose.Schema.Types.ObjectId,
+					ref: "Product",
+					required: true,
+				},
+				quantity: { type: Number, default: 1 },
+			},
+		],
 		// Add other fields as needed
 	},
 	{ collection: "payments", timestamps: true }
