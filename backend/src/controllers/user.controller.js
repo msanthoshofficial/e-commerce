@@ -96,3 +96,42 @@ exports.get_profile = async (req, res, next) => {
 		res.status(404).json({ message: "User Not Found" });
 	}
 };
+
+exports.get_all_users = async (req, res) => {
+	try {
+		const users = await user_model.User.find(
+			{},
+			"username phone email role"
+		);
+		return res.status(200).json(users);
+	} catch (err) {
+		return res.status(404).json({ message: "Users Not Found" });
+	}
+};
+
+exports.updateUserRole = async (req, res) => {
+	try {
+		const user_id = req.params.id;
+		const { role } = req.body;
+		if (role != "customer" && role != "seller" && role != "admin") {
+			return res.status(400).json({ message: "Invalid Role" });
+		}
+		const user = await user_model.User.findOneAndUpdate(
+			{ _id: user_id },
+			{ role: role }
+		);
+		return res.status(200).json(user);
+	} catch (err) {
+		return res.status(404).json({ message: "User Not Found" });
+	}
+};
+
+exports.deleteUser = async (req, res) => {
+	try {
+		const user_id = req.params.id;
+		const user = await user_model.User.findOneAndDelete({ _id: user_id });
+		return res.status(200).json(user);
+	} catch (err) {
+		return res.status(404).json({ message: "User Not Found" });
+	}
+};

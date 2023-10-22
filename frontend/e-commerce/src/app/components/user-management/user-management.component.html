@@ -1,0 +1,78 @@
+<p-toast></p-toast>
+
+<div style="
+border-radius: 20px;
+padding: 20px;
+margin-block: 15px;
+box-shadow: 3px 1px 10px 7px rgb(223 223 223 / 50%);">
+  <div style="display: flex;
+      justify-content: space-between;
+      align-items: center;">
+    <h5>Manage Users</h5>
+    <div>
+
+      <div class="p-input-icon-left">
+        <i class="pi pi-search"></i>
+        <input pInputText class="p-inputtext-sm" type="text" #search (input)="dt.filterGlobal(search.value, 'contains')"
+          placeholder="Search..." />
+      </div>
+    </div>
+  </div>
+
+  <p-table #dt [value]="users" [rows]="6" [paginator]="true" styleClass="p-datatable-sm" dataKey="_id" editMode="row"
+    [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']"
+    [tableStyle]="{ 'min-width': '70rem' }" [breakpoint]="'960px'" [rowHover]="true" dataKey="_id">
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Id</th>
+        <th pSortableColumn="username" style="min-width:15rem">User Name <p-sortIcon field="username"></p-sortIcon>
+        </th>
+        <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon>
+        </th>
+        <th pSortableColumn="phone">Phone <p-sortIcon field="phone"></p-sortIcon>
+        </th>
+        <th pSortableColumn="role">Role <p-sortIcon field="role"></p-sortIcon>
+        </th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-user let-editing="editing" let-ri="rowIndex">
+      <tr [pEditableRow]="user">
+        <td>{{user._id}}</td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.phone }}</td>
+        <td>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <p-dropdown [options]="roles" appendTo="body" [(ngModel)]="user.role" [style]="{'width':'100%'}">
+              </p-dropdown>
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{user.role}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td>
+          <div>
+            <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
+              class="p-button-rounded p-button-text"></button>
+            <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
+              (click)="onRowEditSave(user._id,user.role)"
+              class="p-button-rounded p-button-text p-button-success mr-2"></button>
+            <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
+              class="p-button-rounded p-button-text p-button-danger"></button>
+          </div>
+        </td>
+        <td>
+          <p-button type="button" [ngStyle]="{'margin-inline':'10px'}"
+            styleClass="p-button-danger p-button p-button-rounded p-button-text p-button-raised" icon="pi pi-trash"
+            (onClick)="deleteUser(user._id)">
+          </p-button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

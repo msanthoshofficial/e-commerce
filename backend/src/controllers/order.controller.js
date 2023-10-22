@@ -29,7 +29,9 @@ exports.getMyOrders = async (req, res) => {
 exports.getSellerOrders = async (req, res) => {
 	try {
 		const seller_id = req.id;
-		const orders = await Order.find({ seller_id: seller_id }).populate({
+		const orders = await Order.find({
+			"product.seller_id": seller_id,
+		}).populate({
 			path: "product.product_id",
 			model: Product,
 		});

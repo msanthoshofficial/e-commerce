@@ -19,6 +19,25 @@ export class DataService {
       withCredentials: true,
     });
   }
+  getAllUsers() {
+    return this.http.get(this.api_url + 'user/all', {
+      withCredentials: true,
+    });
+  }
+  updateUserRole(id: string, role: string) {
+    return this.http.post(
+      this.api_url + 'user/role/' + id,
+      { role },
+      {
+        withCredentials: true,
+      }
+    );
+  }
+  deleteUser(id: string) {
+    return this.http.delete(this.api_url + 'user/' + id, {
+      withCredentials: true,
+    });
+  }
   getProducts() {
     return this.http.get(this.api_url + 'product', {
       withCredentials: true,
@@ -101,7 +120,7 @@ export class DataService {
     });
   }
   getSellerOrders() {
-    return this.http.get(this.api_url + 'order', {
+    return this.http.get(this.api_url + 'order/seller', {
       withCredentials: true,
     });
   }
