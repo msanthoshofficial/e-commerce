@@ -13,3 +13,23 @@ exports.jwt_verify = async (req, res, next) => {
 		res.status(401).json({ message: "Unauthorized" });
 	}
 };
+
+exports.isSeller = async (req, res, next) => {
+	if (req.role != "seller") {
+		res.status(403).json({ message: "Forbidden" });
+	}
+	next();
+};
+exports.isAdmin = async (req, res, next) => {
+	if (req.role != "admin") {
+		res.status(403).json({ message: "Forbidden" });
+	}
+	next();
+};
+
+exports.isSellerOrAdmin = async (req, res, next) => {
+	if (req.role != "admin" && req.role != "seller") {
+		res.status(403).json({ message: "Forbidden" });
+	}
+	next();
+};

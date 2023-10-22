@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 var jwt = require("jsonwebtoken");
-const user_model = require("../models/user.models");
+const { User } = require("../models/user.models");
 
 function jwt_generator(data) {
 	const token = jwt.sign(data, process.env.JWT_SECRET, { expiresIn: "1h" });
@@ -11,7 +11,7 @@ exports.authenticate = async (req, res, next) => {
 	try {
 		const { email, password } = req.body;
 		if (!email || !password) throw new Error("Empty Email or Password");
-		const hashed_password = await user_model.User.findOne(
+		const hashed_password = await User.findOne(
 			{ email: email },
 			"password role"
 		);

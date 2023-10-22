@@ -5,11 +5,21 @@ import { DataService } from 'src/app/services/data/data.service';
 import { ButtonModule } from 'primeng/button';
 import { TimelineModule } from 'primeng/timeline';
 import { TagModule } from 'primeng/tag';
+import { RatingModule } from 'primeng/rating';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-orders',
   standalone: true,
-  imports: [CommonModule, TableModule, ButtonModule, TimelineModule, TagModule],
+  imports: [
+    CommonModule,
+    TableModule,
+    ButtonModule,
+    TimelineModule,
+    TagModule,
+    RatingModule,
+    FormsModule,
+  ],
   templateUrl: './orders.component.html',
   styles: [],
 })

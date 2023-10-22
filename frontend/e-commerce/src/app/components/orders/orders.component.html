@@ -8,9 +8,13 @@
       <td>
         <p-tag severity="info" [value]="order.order_status"></p-tag>
       </td>
-      <td>
+      <td *ngIf="order.order_status!='Delivered'">
         <p-button icon="pi pi-map-marker" styleClass="p-button-sm p-button-help p-button-text
 p-button " label="Track Order" (onClick)="track(order)"></p-button>
+      </td>
+
+      <td *ngIf="order.order_status=='Delivered'">
+        <p-rating [(ngModel)]="order.product.product_id.rating" [cancel]="true"></p-rating>
       </td>
     </tr>
   </ng-template>

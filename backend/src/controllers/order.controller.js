@@ -1,4 +1,4 @@
-const Order = require("../models/order.model");
+const { Order } = require("../models/order.model");
 const { Product } = require("../models/product.models");
 
 exports.getMyOrderCount = async (req, res) => {
@@ -50,7 +50,6 @@ exports.updateOrderStatus = async (req, res) => {
 			{ _id: order_id },
 			{ order_status: status }
 		);
-		console.log(order);
 		return res.status(201).json(order);
 	} catch (err) {
 		console.log(err);

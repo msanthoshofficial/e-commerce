@@ -10,6 +10,7 @@ const paymentSchema = new mongoose.Schema(
 		amount: {
 			type: Number,
 			required: true,
+			min: 0,
 		},
 		payment_status: {
 			type: String,
@@ -25,6 +26,4 @@ const paymentSchema = new mongoose.Schema(
 	{ collection: "payments", timestamps: true }
 );
 
-const Payment = mongoose.model("Payments", paymentSchema);
-
-module.exports = Payment;
+exports.Payment = mongoose.model("Payments", paymentSchema);

@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const user_model = require("../models/user.models");
+const { User, UserProfile } = require("../models/user.models");
 const multer = require("multer");
 
 // Multer setup for image uploads
@@ -48,7 +48,7 @@ exports.create_user = async (req, res) => {
 			if (role != "customer" && role != "seller") {
 				throw new Error("Invalid Role");
 			}
-			const user = new user_model.UserProfile({
+			const user = new UserProfile({
 				username,
 				phone,
 				address,
@@ -72,7 +72,7 @@ exports.create_user = async (req, res) => {
 exports.get_user = async (req, res, next) => {
 	try {
 		const email = req.email;
-		const user = await user_model.User.findOne(
+		const user = await User.findOne(
 			{ email: email },
 			"username email role"
 		);
@@ -86,7 +86,7 @@ exports.get_user = async (req, res, next) => {
 exports.get_profile = async (req, res, next) => {
 	try {
 		const email = req.email;
-		var user = await user_model.User.findOne(
+		var user = await User.findOne(
 			{ email: email },
 			"username email profile_picture phone address content_type role"
 		);
@@ -99,10 +99,7 @@ exports.get_profile = async (req, res, next) => {
 
 exports.get_all_users = async (req, res) => {
 	try {
-		const users = await user_model.User.find(
-			{},
-			"username phone email role"
-		);
+		const users = await User.find({}, "username phone email role");
 		return res.status(200).json(users);
 	} catch (err) {
 		return res.status(404).json({ message: "Users Not Found" });
@@ -116,7 +113,7 @@ exports.updateUserRole = async (req, res) => {
 		if (role != "customer" && role != "seller" && role != "admin") {
 			return res.status(400).json({ message: "Invalid Role" });
 		}
-		const user = await user_model.User.findOneAndUpdate(
+		const user = await User.findOneAndUpdate(
 			{ _id: user_id },
 			{ role: role }
 		);
@@ -129,7 +126,7 @@ exports.updateUserRole = async (req, res) => {
 exports.deleteUser = async (req, res) => {
 	try {
 		const user_id = req.params.id;
-		const user = await user_model.User.findOneAndDelete({ _id: user_id });
+		const user = await User.findOneAndDelete({ _id: user_id });
 		return res.status(200).json(user);
 	} catch (err) {
 		return res.status(404).json({ message: "User Not Found" });

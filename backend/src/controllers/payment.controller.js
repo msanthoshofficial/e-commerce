@@ -1,5 +1,5 @@
-const Order = require("../models/order.model");
-const Payment = require("../models/payment.model");
+const { Order } = require("../models/order.model");
+const { Payment } = require("../models/payment.model");
 const { deleteCart } = require("./cart.controller");
 const stripe = require("stripe")(process.env.stripe_secret);
 

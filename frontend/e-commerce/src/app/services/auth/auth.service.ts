@@ -20,10 +20,6 @@ export class AuthService {
     );
   }
 
-  register(email: string, password: string) {
-    console.log(email, password);
-  }
-
   isAuthenticated(url: any): any {
     return this.http
       .get(this.api_url + 'login', { withCredentials: true })
