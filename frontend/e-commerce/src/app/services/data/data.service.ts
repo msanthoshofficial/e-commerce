@@ -133,4 +133,13 @@ export class DataService {
       }
     );
   }
+  addRating(id: string, rating: number) {
+    return this.http.put(
+      this.api_url + 'rating/' + id,
+      { rating },
+      {
+        withCredentials: true,
+      }
+    );
+  }
 }

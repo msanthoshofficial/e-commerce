@@ -69,4 +69,10 @@ export class OrdersComponent implements OnInit {
     this.selectedEvent = index !== -1 ? this.events.slice(0, index + 1) : [];
     this.tracking = true;
   }
+  rated(id: string, event: any) {
+    let rating = event.value ? event.value : 0;
+    this.dataService.addRating(id, rating).subscribe((data: any) => {
+      this.getOrders();
+    });
+  }
 }

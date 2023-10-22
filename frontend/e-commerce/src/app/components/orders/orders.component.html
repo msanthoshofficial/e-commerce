@@ -14,7 +14,10 @@ p-button " label="Track Order" (onClick)="track(order)"></p-button>
       </td>
 
       <td *ngIf="order.order_status=='Delivered'">
-        <p-rating [(ngModel)]="order.product.product_id.rating" [cancel]="true"></p-rating>
+        <div *ngIf="!order.rating">Please share your rating</div>
+        <p-rating [(ngModel)]="order.rating" (onRate)="rated(order.product.product_id._id,$event)"
+          (onCancel)="rated(order.product.product_id._id,0)" [cancel]="true">
+        </p-rating>
       </td>
     </tr>
   </ng-template>
