@@ -17,7 +17,8 @@
           <p-rating [(ngModel)]="product.rating" [readonly]="true" [cancel]="false"></p-rating>
           <div class="tool">
             <p-button type="button" class="tool-button"
-              styleClass=" p-button p-button-rounded p-button-text p-button-raised" icon="pi pi-search">
+              styleClass=" p-button p-button-rounded p-button-text p-button-raised" icon="pi pi-search"
+              (onClick)="selectedProduct=product;showproduct=true">
             </p-button>
             <p-button type="button" class="tool-button"
               styleClass="p-button-success p-button p-button-rounded p-button-text p-button-raised"
@@ -31,3 +32,9 @@
 </div>
 <div style="text-align: center;margin-block: 20px;"><img src="../../../assets/banner.png" /></div>
 <app-loader *ngIf="!loaded"></app-loader>
+<ng-container *ngIf="showproduct">
+  <p-dialog [modal]="true" [draggable]="false" [resizable]="false" [maximizable]="true" [(visible)]="showproduct"
+    [style]="{width: '40vw'}">
+    <app-product [product]="selectedProduct"></app-product>
+  </p-dialog>
+</ng-container>

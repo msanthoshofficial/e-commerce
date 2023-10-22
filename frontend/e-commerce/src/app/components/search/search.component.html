@@ -1,7 +1,7 @@
 <ng-container>
   <input type="text" style="width: 100%;" pInputText [(ngModel)]="searchText" class="p-inputtext-sm"
     placeholder="Search" (input)="filterProducts()" />
-  <div *ngIf="searchText">
+  <ng-container *ngIf="searchText">
 
     <div *ngFor="let product of filteredProducts">
       <div style="display: flex;align-items: center;margin-block: 10px;">
@@ -11,8 +11,11 @@
         text-decoration: underline;
         color: #4d00ff;
         cursor: pointer;
-        user-select: none;">{{ product.name }}</div>
+        user-select: none;" (click)="selectedProduct=product;showproduct=true">{{ product.name }}</div>
       </div>
     </div>
-  </div>
+  </ng-container>
+</ng-container>
+<ng-container *ngIf="showproduct && searchText">
+  <app-product [product]="selectedProduct"></app-product>
 </ng-container>

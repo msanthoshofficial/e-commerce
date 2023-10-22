@@ -6,6 +6,8 @@ import { DataService } from 'src/app/services/data/data.service';
 import { RatingModule } from 'primeng/rating';
 import { FormsModule } from '@angular/forms';
 import { LoaderComponent } from 'src/app/components/loader/loader.component';
+import { DialogModule } from 'primeng/dialog';
+import { ProductComponent } from 'src/app/components/product/product.component';
 
 @Component({
   selector: 'app-products',
@@ -17,6 +19,8 @@ import { LoaderComponent } from 'src/app/components/loader/loader.component';
     RatingModule,
     FormsModule,
     LoaderComponent,
+    DialogModule,
+    ProductComponent,
   ],
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.css'],
@@ -25,6 +29,8 @@ export class ProductsComponent implements OnInit {
   constructor(private dataService: DataService) {}
   products: [] = [];
   loaded = false;
+  showproduct = false;
+  selectedProduct: any;
   ngOnInit(): void {
     this.dataService.getProducts().subscribe((data: any) => {
       this.products = data;
@@ -32,6 +38,8 @@ export class ProductsComponent implements OnInit {
       this.loaded = true;
     });
   }
+
+  showProductDetails() {}
 
   addToCart(productId: String) {
     this.dataService.addToCart(productId).subscribe((data: any) => {

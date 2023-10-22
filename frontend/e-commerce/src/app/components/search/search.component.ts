@@ -3,20 +3,33 @@ import { CommonModule } from '@angular/common';
 import { DialogModule } from 'primeng/dialog';
 import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
+import { ProductComponent } from '../product/product.component';
 
 @Component({
   selector: 'app-search',
   standalone: true,
-  imports: [CommonModule, DialogModule, FormsModule, InputTextModule],
+  imports: [
+    CommonModule,
+    DialogModule,
+    FormsModule,
+    InputTextModule,
+    DialogModule,
+    ProductComponent,
+  ],
   templateUrl: './search.component.html',
   styles: [],
 })
 export class SearchComponent implements OnInit {
   @Input() searchText: string = '';
   products = JSON.parse(sessionStorage.getItem('Products')!);
+  showproduct = false;
   filteredProducts: any;
+  selectedProduct: any;
   ngOnInit(): void {}
   filterProducts() {
+    if (!this.searchText) {
+      this.selectedProduct = undefined;
+    }
     this.filteredProducts = this.products
       .map((product: any) => ({
         ...product,
