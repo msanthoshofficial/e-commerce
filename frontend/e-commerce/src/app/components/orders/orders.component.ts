@@ -41,6 +41,7 @@ export class OrdersComponent implements OnInit {
       color: '#607D8B',
     },
   ];
+  selectedEvent: any;
   constructor(private dataService: DataService) {}
   ngOnInit(): void {
     this.getOrders();
@@ -55,7 +56,7 @@ export class OrdersComponent implements OnInit {
     const index = this.events.findIndex(
       (event) => event.status === this.selectedOrder.order_status
     );
-    this.events = index !== -1 ? this.events.slice(0, index + 1) : [];
+    this.selectedEvent = index !== -1 ? this.events.slice(0, index + 1) : [];
     this.tracking = true;
   }
 }

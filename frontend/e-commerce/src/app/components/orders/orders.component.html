@@ -21,7 +21,7 @@ p-button " label="Back" (onClick)="selectedOrder=undefined;tracking=false"></p-b
   <div style="    padding-inline: 1rem;
   font-size: small;">order id: {{selectedOrder._id}}</div>
   <h3 style="display: flex;align-items: center;justify-content: center;">{{selectedOrder.product.product_id.name}}</h3>
-  <p-timeline [value]="events" align="alternate">
+  <p-timeline [value]="selectedEvent" align="alternate">
     <ng-template pTemplate="marker" let-event>
       <span style="border-radius: 50px;
       height: 2rem;
