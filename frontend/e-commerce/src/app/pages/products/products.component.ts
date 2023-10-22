@@ -23,11 +23,12 @@ import { LoaderComponent } from 'src/app/components/loader/loader.component';
 })
 export class ProductsComponent implements OnInit {
   constructor(private dataService: DataService) {}
-  products = [];
+  products: [] = [];
   loaded = false;
   ngOnInit(): void {
     this.dataService.getProducts().subscribe((data: any) => {
       this.products = data;
+      sessionStorage.setItem('Products', JSON.stringify(this.products));
       this.loaded = true;
     });
   }

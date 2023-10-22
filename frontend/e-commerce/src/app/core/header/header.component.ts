@@ -9,6 +9,7 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { DialogModule } from 'primeng/dialog';
 import { CartListComponent } from 'src/app/components/cart-list/cart-list.component';
 import { OrdersComponent } from 'src/app/components/orders/orders.component';
+import { SearchComponent } from 'src/app/components/search/search.component';
 
 @Component({
   selector: 'app-header',
@@ -22,6 +23,7 @@ import { OrdersComponent } from 'src/app/components/orders/orders.component';
     CartListComponent,
     DialogModule,
     OrdersComponent,
+    SearchComponent,
   ],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
@@ -36,6 +38,7 @@ export class HeaderComponent implements OnInit {
   products = [];
   show = false;
   showorders = false;
+  search = false;
   constructor(private router: Router, private dataService: DataService) {}
   ngOnInit() {
     this.user = JSON.parse(sessionStorage.getItem('user')!);
