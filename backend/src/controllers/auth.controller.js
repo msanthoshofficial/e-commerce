@@ -32,7 +32,7 @@ exports.authenticate = async (req, res, next) => {
 				httpOnly: true,
 				maxAge: 3600000,
 				sameSite: "none",
-				secure: false,
+				secure: true,
 			}); // maxAge is in milliseconds (1 hour)
 			res.status(200).json({ message: "Login successful" });
 		} else {
