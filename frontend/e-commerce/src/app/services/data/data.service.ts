@@ -6,7 +6,7 @@ import { environment } from 'src/env';
   providedIn: 'root',
 })
 export class DataService {
-  readonly api_url = process.env['api'] ? process.env['api'] : environment.api;
+  readonly api_url = environment.api;
   cartCountUpdated = new EventEmitter<Object>();
   constructor(private http: HttpClient) {}
 

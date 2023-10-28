@@ -9,7 +9,7 @@ import { environment } from 'src/env';
   providedIn: 'root',
 })
 export class AuthService {
-  readonly api_url = process.env['api'] ? process.env['api'] : environment.api;
+  readonly api_url = environment.api;
 
   constructor(private http: HttpClient, private router: Router) {}
 
