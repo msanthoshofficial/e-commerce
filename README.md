@@ -2,6 +2,8 @@
 
 An e-commerce platform built using the MEAN stack for a modern, full-stack web development experience.
 
+https://e-commerce-app-silk.vercel.app/#/app/products
+
 ## Demo
 
 [![Demo Video](https://img.youtube.com/vi/gkQhKSiZl_g/0.jpg)](https://youtu.be/watch?v=gkQhKSiZl_g)
