@@ -1,11 +1,12 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/env';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DataService {
-  readonly api_url = 'http://localhost:8000/api/';
+  readonly api_url = process.env['api'] ? process.env['api'] : environment.api;
   cartCountUpdated = new EventEmitter<Object>();
   constructor(private http: HttpClient) {}
 
