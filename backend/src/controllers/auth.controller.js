@@ -31,7 +31,7 @@ exports.authenticate = async (req, res, next) => {
 			res.cookie("token", token, {
 				httpOnly: true,
 				maxAge: 3600000,
-				SameSite: "none",
+				sameSite: "none",
 				secure: false,
 			}); // maxAge is in milliseconds (1 hour)
 			res.status(200).json({ message: "Login successful" });
