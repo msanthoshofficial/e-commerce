@@ -9,6 +9,10 @@ const compression = require("compression");
 const cookieParser = require("cookie-parser");
 const { rateLimit } = require("express-rate-limit");
 
+process.env.PORT
+	? console.log("prod mode")
+	: require("dotenv").config({ path: ".env.prod" });
+
 var app = express();
 app.use(compression());
 
