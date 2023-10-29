@@ -2,7 +2,7 @@
 
 An e-commerce platform built using the MEAN stack for a modern, full-stack web development experience.
 
-[Visit The Site](https://e-commerce-lkbaffs5u-santhoshs-projects-0d2a08dd.vercel.app)
+[Visit The Site](https://e-commerce-app-santhoshs-projects-0d2a08dd.vercel.app/)
 
 ## Demo
 

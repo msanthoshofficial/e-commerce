@@ -18,7 +18,11 @@ app.use(compression());
 
 app.use(
 	cors({
-		origin: "*",
+		origin: [
+			"http://localhost:4200",
+			"https://e-commerce-app-silk.vercel.app",
+			"https://e-commerce-app-git-main-santhoshs-projects-0d2a08dd.vercel.app/",
+		],
 		credentials: true,
 	})
 );
