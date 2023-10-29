@@ -1,6 +1,6 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/env';
+import { environment } from 'src/environment/env';
 
 @Injectable({
   providedIn: 'root',
