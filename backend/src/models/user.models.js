@@ -36,6 +36,12 @@ const userSchema = new mongoose.Schema(
 			enums: ["customer", "seller", "admin"],
 			default: "customer",
 		},
+		login_count: {
+			type: Number,
+			required: true,
+			default: 0,
+			min: 0,
+		},
 	},
 	{ collection: "users", timestamps: true }
 );
