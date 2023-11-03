@@ -34,6 +34,7 @@ exports.authenticate = async (req, res, next) => {
 				sameSite: "none",
 				secure: true,
 			}); // maxAge is in milliseconds (1 hour)
+			await update_login_count(hashed_password.id);
 			res.status(200).json({ message: "Login successful" });
 		} else {
 			res.status(400).json({ message: "Incorrect Password or Email" });
@@ -43,4 +44,17 @@ exports.authenticate = async (req, res, next) => {
 		res.status(400).json({ message: "Error logging in" });
 	}
 	next();
+};
+
+update_login_count = async (id) => {
+	try {
+		const user = await User.updateOne(
+			{ _id: id },
+			{ $inc: { login_count: 1 } }
+		);
+		return true;
+	} catch (err) {
+		console.log(err);
+		return false;
+	}
 };

@@ -3,8 +3,8 @@
         "wsl.localhost"
     ],
     "terminal.integrated.defaultProfile.windows": "Command Prompt",
-    "workbench.colorTheme": "Aura Dark",
-    "workbench.iconTheme": "material-icon-theme",
+    "workbench.colorTheme": "Bearded Theme Black & Diamond",
+    "workbench.iconTheme": "bearded-icons",
     "workbench.startupEditor": "none",
     "workbench.sideBar.location": "right",
     "svelte.enable-ts-plugin": true,
