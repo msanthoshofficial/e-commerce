@@ -21,6 +21,7 @@ import {
 } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { DataService } from 'src/app/services/data/data.service';
+import { LoaderComponent } from 'src/app/components/loader/loader.component';
 
 @Component({
   selector: 'app-login',
@@ -37,6 +38,7 @@ import { DataService } from 'src/app/services/data/data.service';
     InputTextareaModule,
     InputMaskModule,
     InputSwitchModule,
+    LoaderComponent,
   ],
   providers: [AuthService, MessageService, DataService],
   templateUrl: './login.component.html',
@@ -54,6 +56,7 @@ export class LoginComponent {
   imageUrl: string | null = null;
   formToggled: boolean = false;
   seller = false;
+  loading = false;
   loginform = new FormGroup({
     email: new FormControl('', [
       Validators.required,
@@ -90,10 +93,12 @@ export class LoginComponent {
   });
 
   login() {
+    this.loading = true;
     this.authService
       .login(this.loginform.value.email!, this.loginform.value.password!)
       .subscribe(
         (res: loginResponse) => {
+          this.loading = false;
           if (res.message == 'Login successful') {
             this.dataService.userProfile().subscribe((res) => {
               sessionStorage.setItem('user', JSON.stringify(res));
@@ -113,11 +118,13 @@ export class LoginComponent {
             summary: 'Auth Error',
             detail: 'Email or Password is incorrect',
           });
+          this.loading = false;
         }
       );
   }
 
   register() {
+    this.loading = true;
     const formData = new FormData();
     formData.append('email', this.registerform.value.email!);
     formData.append('address', this.registerform.value.address!);
@@ -134,6 +141,7 @@ export class LoginComponent {
     this.dataService.registerUser(formData).subscribe(
       (res: loginResponse) => {
         this.clearFileInput();
+        this.loading = false;
         this.messageService.add({
           severity: 'success',
           summary: 'User Registration Successful',
@@ -148,6 +156,7 @@ export class LoginComponent {
           detail: "Can't register user",
         });
         this.clearFileInput();
+        this.loading = false;
       }
     );
     this.clearFileInput();
